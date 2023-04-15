@@ -1,0 +1,75 @@
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Del Taco,Beer Battered Crispy Fish Taco ,124,3.29,200,,11,2,0,15,460,20,2,2,6
+Del Taco,NEW Habanero Beer Battered Crispy Fish Taco ,114,3.29,190,,11,2,0,15,460,20,1,2,6
+Del Taco,Beyond Taco® (Crunchy) ,121,2.99,280,,18,10,0,35,500,16,2,1,15
+Del Taco,Beyond Taco® (Soft) ,128,2.99,280,,15,9,0,35,590,19,2,2,15
+Del Taco,Beyond Guacamole Taco (Crunchy) ,121,2.99,190,,10,4,0,0,360,18,3,2,8
+Del Taco,Beyond Guacamole Taco (Soft) ,128,2.99,180,,7,3,0,0,440,20,2,2,9
+Del Taco,Chicken Taco Del Carbon ,90,1.79,110,,3.5,0,0,30,300,13,0,0,9
+Del Taco,Chicken Taco Del Carbon Guac'd Up ,107,1.99,130,,4.5,0,0,30,330,14,2,1,9
+Del Taco,Grilled Chicken Taco ,104,1.79,210,,12,3,0,45,510,15,1,1,11
+Del Taco,Chipotle Crispy Chicken Taco ,97,1.79,240,,13,4,0,30,520,18,1,1,9
+Del Taco,Chipotle Crispy Chicken Guac'd Up Taco ,112,1.99,250,,15,4,0,30,560,19,1,1,10
+Del Taco,Habanero Crispy Chicken Taco ,97,1.79,240,,14,4,0,35,540,18,1,1,9
+Del Taco,Habanero Crispy Chicken Guac'd Up Taco ,112,1.99,260,,15,4.5,0,35,570,19,1,1,10
+Del Taco,Ranch Crispy Chicken Taco ,97,1.79,230,,13,4,0,30,530,18,1,1,10
+Del Taco,Ranch Crispy Chicken Guac'd Up Taco ,112,1.99,250,,14,4,0,30,560,19,1,1,10
+Del Taco,Original Crispy Jumbo Shrimp Taco ,121,3.79,310,,18,3.5,0,40,630,27,1,2,8
+Del Taco,The Del Taco (Crunchy) ,121,1.99,300,,20,11,0,60,520,14,2,2,16
+Del Taco,The Del Taco (Soft) ,128,1.99,290,,17,10,0,60,610,16,1,2,17
+Del Taco,Snack Taco (Crunchy) ,53,0.99,120,,7,3,0,20,135,8,0,1,6
+Del Taco,Snack Taco (Soft) ,67,0.99,150,,6,3,0,20,330,14,1,1,7
+Del Taco,Crunchtada® Tostada,168,1.79,330,,14,4.5,0,20,400,41,8,1,12
+Del Taco,SQT - Grilled Chicken Taco ,151,2.59,320,,14,6,0,60,890,29,1,1,17
+Del Taco,SQT - Grilled Chicken & Guac'd Up Taco ,180,2.89,350,,17,7,0,60,960,31,2,2,18
+Del Taco,SQT - Carne Asada Taco ,151,3.59,330,,14,8,0,55,1010,30,1,2,18
+Del Taco,SQT - Carne Asada & Guac'd Up Taco ,180,3.89,360,,17,8,0,55,1080,32,2,2,19
+Del Taco,SQT - Crispy Chicken Taco ,195,2.79,450,,24,9,0,70,1130,35,1,2,21
+Del Taco,SQT - Crispy Chicken & Guac'd Up Taco ,223,3.09,480,,26,10,0,70,1200,37,2,2,22
+Del Taco,SQT - Original Crispy Jumbo Shrimp Taco ,176,3.99,460,,25,8,0,60,1050,40,1,2,14
+Del Taco,Cheddar Quesadilla ,152,4.29,480,,27,16,0,85,1030,35,1,0,22
+Del Taco,Chicken Cheddar Quesadilla ,195,5.49,540,,30,16,0,115,1250,36,1,0,29
+Del Taco,Carne Asada Cheddar Quesadilla ,195,5.99,550,,30,18,0,110,1370,37,0,0,31
+Del Taco,Snack Queso Quesadilla ,80,1.49,230,,9,5,0,20,620,27,1,1,8
+Del Taco,Taco Salad with Fresh Guac (Seasoned Beef) ,449,7.29,510,,34,17,0.5,110,1180,23,1,9,28
+Del Taco,Taco Salad with Fresh Guac (Carne Asada) ,421,7.89,440,,26,13,0,105,1370,23,1,8,29
+Del Taco,Taco Salad with Fresh Guac (Grilled Chicken) ,421,7.49,420,,26,10,0,115,1140,22,1,7,26
+Del Taco,Taco Salad with Fresh Guac (Beyond Meat®) ,449,7.89,480,,29,15,0,55,1140,29,4,9,25
+Del Taco,3 Layer Queso Nachos ,173,1.99,330,,15,3.5,0,10,730,44,7,1,10
+Del Taco,Queso Loaded Nachos (Seasoned Beef) ,573,7.09,1030,,54,20,1,100,2580,99,17,8,41
+Del Taco,Queso Loaded Nachos (Grilled Chicken) ,553,7.29,950,,47,14,0,110,2560,98,15,6,40
+Del Taco,Queso Loaded Nachos (Carne Asada) ,553,7.69,970,,47,16,0.5,100,2800,99,15,6,43
+Del Taco,Queso Loaded Nachos (Beyond Meat®) ,573,7.69,1000,,50,18,0,50,2530,105,14,7,38
+Del Taco,Chips & Fresh House-made Guac (Snack-sized) ,91,2.29,170,,11,1.5,0,0,190,18,4,1,2
+Del Taco,Chips & Fresh House-made Guac (Regular-sized) ,176,3.29,340,,22,3.5,0,0,370,36,7,2,5
+Del Taco,Chips & Queso Dip (Snack-sized) ,113,2.09,290,,18,5,0,15,630,28,2,1,6
+Del Taco,Chips & Queso Dip (Regular-sized) ,283,3.29,640,,40,13,0,45,1790,59,3,3,14
+Del Taco,8-Layer Veggie Burrito ,329,4.69,520,,17,7,0,30,1290,70,9,3,16
+Del Taco,Beyond 8 Layer Burrito (Beyond Meat®) ,325,5.39,530,,20,9,0,30,1220,59,10,3,25
+Del Taco,Bean & Cheese Burrito (Green) ,237,1.69,440,,10,4.5,0,20,1210,69,13,0,19
+Del Taco,Bean & Cheese Burrito (Red) ,237,1.69,460,,10,4.5,0,20,1180,68,13,0,19
+Del Taco,Chicken Cheddar Roller (Chipotle) ,111,1.69,280,,12,3,0,40,730,30,0,0,13
+Del Taco,Chicken Cheddar Roller (Original) ,118,1.69,250,,9,2.5,0,40,750,30,0,0,13
+Del Taco,Chicken Cheddar Roller (Ranch) ,111,1.69,270,,12,3,0,40,730,30,0,0,13
+Del Taco,Classic Grilled Chicken Burrito ,223,4.99,520,,32,7,0,75,1060,39,2,2,19
+Del Taco,Crispy Jumbo Shrimp Burrito ,314,6.5,820,,49,9,0,90,1720,74,0,2,18
+Del Taco,Del Beef Burrito™ ,214,4.79,470,,22,10,0.5,70,1180,39,3,2,24
+Del Taco,Del Combo Burrito™ ,226,4.79,470,,16,8,0,45,1170,53,8,1,22
+Del Taco,Spicy Grilled Chicken Burrito ,287,4.99,520,,16,5,0,60,1550,68,7,0,25
+Del Taco,Epic Cali Bacon Burrito (Grilled Chicken) ,414,7.59,1020,,60,18,0,170,2240,72,4,3,46
+Del Taco,Epic Cali Bacon Burrito (Carne Asada) ,414,8.49,1050,,60,22,1,155,2600,73,4,4,51
+Del Taco,Epic Beyond Cali Bacon Burrito (Beyond Meat®) ,444,8.49,1090,,64,24,0,80,2190,81,7,6,42
+Del Taco,Epic Crispy Chicken & Guac Burrito ,387,6.49,880,,50,11,0,70,1750,80,5,5,28
+Del Taco,Epic Combo Burrito (formerly Macho Combo Burrito™) ,519,6.49,900,,38,19,1,105,2080,91,16,7,43
+Del Taco,Epic Fresh Guacamole Burrito (Grilled Chicken) ,429,7.49,720,,25,4.5,0,90,2080,88,10,3,37
+Del Taco,Epic Fresh Guacamole Burrito (Carne Asada) ,429,8.49,750,,25,8,1,75,2440,89,10,4,41
+Del Taco,Epic Beyond Fresh Guacamole Burrito (Beyond Meat®) ,459,8.49,810,,32,12,0,0,2080,92,13,5,43
+Del Taco,Epic Loaded Queso Burrito (Grilled Chicken) ,465,6.99,860,,45,15,0,150,2650,74,2,4,43
+Del Taco,Epic Loaded Queso Burrito (Carne Asada) ,465,8.09,890,,45,19,1,130,3010,76,2,5,47
+Del Taco,Epic Beyond Loaded Queso Burrito (Beyond Meat®) ,495,8.09,960,,51,23,0,60,2650,78,7,6,48
+Del Taco,Chicken BLT Torta ,348,6.99,780,,41,12,0,145,2390,61,4,6,46
+Del Taco,Crispy Chicken & Guac Torta ,364,6.99,760,,42,12,0,85,1910,69,6,7,29
+Del Taco,Carne Asada & Queso Torta ,292,7.99,570,,22,11,0,90,2080,59,3,5,35
+Del Taco,Bacon Double Del® Cheeseburger ,280,5.59,760,,51,20,2,145,1840,35,1,7,37
+Del Taco,Double Del® Cheeseburger ,266,5.09,690,,47,18,2,125,1230,35,1,7,30
+Del Taco,Del Cheeseburger ,191,3.09,470,,28,10,1,70,1000,34,1,7,17
