@@ -1,0 +1,5 @@
+Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Hamburger w/ Onion,243,2.8,390,170,19,5,0,40,650,39,3,10,16
+Cheeseburger w/ Onion,268,2.8,480,240,27,10,0.5,60,1000,39,3,10,22
+Double-Double w/ Onion,330,3.95,670,370,41,18,1,120,1440,39,3,10,37
+French Fries,125,1.95,370,140,15,1.5,0,0,250,52,6,0,6
