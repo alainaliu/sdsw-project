@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholestrol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholestrol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 SonicDrive-In,JR.CHEESEBURGER,,2.18,380,190,21,7,0,30,900,33,1,5,16
 SonicDrive-In,QUARTERPOUNDDOUBLECHEESEBURGER,,3.65,560,320,35,12,0,60,1290,34,1,6,26
 SonicDrive-In,SONICCHEESEBURGERWITHKETCHUP&MAYO,,7.06,720,380,42,11,0,70,1400,52,2,12,31
