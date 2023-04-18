@@ -2,10 +2,12 @@
 title: "SDSW Project"
 author: "Alaina Liu"
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ggplot2)
@@ -58,4 +60,26 @@ wendys <- read.csv("")
 # combine everything into one dataset
 alldata <- bind_rows(arbys, blimpie, buffaloWildWings, burgerKing, carlsJr, chickFilA, chilis, delTaco, inNOut, jackInTheBox, KFC, mcdonalds, popeyes, raisingCanes, sonic, tacoBell, wendys)
 ```
+
+## Graphs
+```{r}
+ggplot(data=alldata, aes(x=Calories, y=Price)) + geom_point()
+```
+
+```{r}
+ggplot(data=alldata, aes(x=Calories, y=Price, color=Restaurant)) + geom_point()
+```
+```{r}
+ggplot(data=alldata, aes(x=ServingSize, y=Price)) + geom_point()
+```
+```{r}
+ggplot(data=alldata, aes(x=ServingSize, y=Price, color=Restaurant)) + geom_point()
+```
+
+
+
+
+
+
+
 
