@@ -1,0 +1,61 @@
+---
+title: "SDSW Project"
+author: "Alaina Liu"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+```
+
+I created two of the same code chunks for reading in the files so we don't have to change the pathnames every time we run it. When you run it, just set the first chunk to eval=FALSE and the second chunk to eval=TRUE.
+
+```{r, eval=TRUE}
+arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
+blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
+buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
+burgerKing <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - burgerking.csv")
+carlsJr <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - carsljr (1).csv")
+chickFilA <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - chickfila.csv")
+chilis <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - chilis (1).csv")
+delTaco <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - deltaco (1).csv")
+inNOut <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - innout (1).csv")
+jackInTheBox <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - JackintheBox.csv")
+KFC <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - KFC.csv")
+mcdonalds <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - mcdonalds.csv")
+popeyes <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Popeyes.csv")
+raisingCanes <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - raisingcanes (1).csv")
+sonic <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Sonic Drive-In.csv")
+tacoBell <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - tacobell.csv")
+wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - wendys.csv")
+```
+
+```{r, eval=FALSE}
+arbys <- read.csv("")
+blimpie <- read.csv("")
+buffaloWildWings <- read.csv("")
+burgerKing <- read.csv("")
+carlsJr <- read.csv("")
+chickFilA <- read.csv("")
+chilis <- read.csv("")
+delTaco <- read.csv("")
+inNOut <- read.csv("")
+jackInTheBox <- read.csv("")
+KFC <- read.csv("")
+mcdonalds <- read.csv("")
+popeyes <- read.csv("")
+raisingCanes <- read.csv("")
+sonic <- read.csv("")
+tacoBell <- read.csv("")
+wendys <- read.csv("")
+```
+
+```{r}
+# combine everything into one dataset
+alldata <- bind_rows(arbys, blimpie, buffaloWildWings, burgerKing, carlsJr, chickFilA, chilis, delTaco, inNOut, jackInTheBox, KFC, mcdonalds, popeyes, raisingCanes, sonic, tacoBell, wendys)
+```
+
