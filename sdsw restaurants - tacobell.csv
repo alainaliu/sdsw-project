@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 TacoBell,ChalupaSupreme-Beef,,4.39,360,,21,6,0,25,570,31,4,4,12
 TacoBell,CheesyGorditaCrunch,,4.69,500,,28,10,0,50,840,41,5,5,20
 TacoBell,CrunchyTaco,,1.79,170,,10,3.5,0,25,300,13,3,0,8
