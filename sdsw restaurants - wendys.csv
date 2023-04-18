@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 Wendy's,Baconator,,8.29,950,,62,24,3,205,1630,40,2,8,59
 Wendy's,Dave’s Double,,6.99,810,,51,20,3,175,1280,41,3,8,49
 Wendy's,Dave’s Single,,5.49,570,,34,13,1.5,100,1110,40,3,9,30
