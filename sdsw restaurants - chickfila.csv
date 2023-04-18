@@ -1,4 +1,4 @@
-Restaurants,Item,ServingSize,Price,Calories,CaloriesFromFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 Chick-fil-a,Chick-fil-AChickenBiscuit,153,4.15,460,23,8,0,45,1510,45,2,6,19
 Chick-fil-a,SpicyChickenBiscuit,144,4.39,430,21,8,0,35,1470,43,2,5,17
 Chick-fil-a,Chick-fil-AChick-n-Minis,127,5.25,360,13,4,0,60,1060,41,2,8,20
