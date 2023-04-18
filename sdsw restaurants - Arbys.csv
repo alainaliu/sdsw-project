@@ -1,7 +1,7 @@
 Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 Arby's,SmokehouseBrisket,203,8.79,600,310,35,12,1,100,1240,42,2,7,33
 Arby's,TraditionalGreekGyro,273,6.79,710,390,44,13,0,75,1360,55,4,6,23
-Arby's,RoastBeefGyro,273,540,550,260,29,7,1,60,1290,48,3,5,24
+Arby's,RoastBeefGyro,273,5.40,550,260,29,7,1,60,1290,48,3,5,24
 Arby's,Reuben,308,8.59,680,280,31,8,0.5,80,2420,62,4,5,37
 Arby's,ClassicRoastBeef,154,5.49,360,120,14,5,0.5,50,970,37,2,5,23
 Arby's,DoubleRoastBeef,239,7.29,510,210,24,9,1.5,95,1610,38,2,5,38
