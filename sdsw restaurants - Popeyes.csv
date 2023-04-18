@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 Popeyes,NUGGETS(8Pieces),,3.99,380,220,24,11,1.5,80,880,19,1,0,22
 Popeyes,NUGGETS(12Pieces),,7.49,570,320,36,16,2,120,1320,28,2,0.5,34
 Popeyes,CHICKENSANDWICH-CLASSIC,,4.99,700,380,42,14,2,90,1440,50,2,8,28
