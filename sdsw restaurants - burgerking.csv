@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 BurgerKing,WHOPPERSandwich,270,7.99,660,360,40,12,1.5,90,980,49,2,11,28
 BurgerKing,DOUBLEWHOPPERSandwich,354,9.19,900,520,58,20,3,175,1050,49,2,11,48
 BurgerKing,TRIPLEWHOPPERSandwich,438,10.09,1130,680,75,28,4,255,1120,49,2,11,67
