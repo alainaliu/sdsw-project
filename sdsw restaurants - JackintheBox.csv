@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 JackInTheBox,BaconUltimateCheeseburger,284,7.99,910,500,56,24,3,165,2190,44,2,7,27
 JackInTheBox,Hamburger,105,2.39,280,100,11,4,0.5,25,680,32,1,5,14
 JackInTheBox,Jr.Jackw/Cheese,153,2.99,370,170,19,7,1,40,920,33,2,66,16
