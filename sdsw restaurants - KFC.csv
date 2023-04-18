@@ -1,4 +1,4 @@
-Resturant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
+Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
 KFC,OriginalRecipeChickenBreast,,3.69,390,,21,4,0,120,1190,11,2,0,39
 KFC,OriginalRecipeChickenDrumstick,,2.49,130,,8,1.5,0,55,430,4,1,0,12
 KFC,OriginalRecipeChickenThigh,,2.49,280,,19,4.5,0,100,910,8,1,0,19
