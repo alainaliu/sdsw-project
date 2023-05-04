@@ -1,6 +1,6 @@
 ---
 title: "SDSW Project"
-author: "Alaina Liu and Brendan McGuinness"
+author: "Alaina Liu"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -74,55 +74,9 @@ top_10_CtoP <- top_n(alldata_CtoP_sorted, -10)
 #Getting bottom ten values
 bottom_10_CtoP <- top_n(alldata_CtoP_sorted, 10)
 
-View(alldata)
+View(alldata2)
 View(alldata_CtoP_sorted)
 View(top_10_CtoP)
-```
-
-```{r}
-# New column for Serving Size to Price ratio (The amount paid per 10 grams)
-alldata$ServSize_to_Price <- c(((alldata$Price)*10)/(alldata$ServingSize))
-#Sorting data by Serving Size to Price ratio
-alldata_SStoP_sorted <- alldata[order(alldata$ServSize_to_Price),]
-#Getting top ten values
-top_10_SStoP <- top_n(alldata_SStoP_sorted, -10)
-#Getting bottom ten values
-bottom_10_SStoP <- top_n(alldata_SStoP_sorted, 10)
-#Fixing Typo for McDonalds SausageMcMuffin
-alldata[350,3] <- c(111)
-
-View(alldata)
-View(alldata_SStoP_sorted)
-View(top_10_SStoP)
-View(bottom_10_SStoP)
-```
-```{r}
-#Retrieving the average Calories to Price ratio for each restaurant 
-Arbys_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Arby's",])$Calories_to_Price)
-Blimpie_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Blimpie",])$Calories_to_Price)
-BuffWildWings_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Calories_to_Price)
-BurgerKing_Mean_CtoP <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Calories_to_Price)
-CarlsJr_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Calories_to_Price)
-ChikFilA_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Calories_to_Price)
-Chilis_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chili's",])$Calories_to_Price)
-Deltaco_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Del Taco",])$Calories_to_Price)
-InNOut_Mean_CtoP <- mean((alldata[alldata$Restaurant == "In n Out",])$Calories_to_Price)
-JackInBox_Mean_CtoP <- mean((alldata[alldata$Restaurant == "JackInTheBox",])$Calories_to_Price)
-KFC_Mean_CtoP <- mean((alldata[alldata$Restaurant == "KFC",])$Calories_to_Price)
-McDonalds_Mean_CtoP <- mean((alldata[alldata$Restaurant == "McDonalds",])$Calories_to_Price)
-Popeyes_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Popeyes",])$Calories_to_Price)
-Canes_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Raising Cane's",])$Calories_to_Price)
-Sonic_Mean_CtoP <- mean((alldata[alldata$Restaurant == "SonicDrive-In",])$Calories_to_Price)
-TacoBell_Mean_CtoP <- mean((alldata[alldata$Restaurant == "TacoBell",])$Calories_to_Price)
-Wendys_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Wendy's",])$Calories_to_Price)
-
-resturants1 <- c("Arby's", 'Blimpie', 'Buffalo Wild Wings', 'Burger King', 'Carls Jr', 'ChickFilA', 'Chilis', 'Del Taco', 'In-N-Out', 'Jack In The Box', 'KFC', 'McDonalds', 'Popeyes', 'Raising Canes', 'Sonic Drive-In', 'Taco Bell', "Wendy's")  
-
-Mean_CtoP_Rest <- c(Arbys_Mean_CtoP, Blimpie_Mean_CtoP, BuffWildWings_Mean_CtoP, BurgerKing_Mean_CtoP, CarlsJr_Mean_CtoP, ChikFilA_Mean_CtoP, Chilis_Mean_CtoP, Deltaco_Mean_CtoP, InNOut_Mean_CtoP, JackInBox_Mean_CtoP, KFC_Mean_CtoP, McDonalds_Mean_CtoP, Popeyes_Mean_CtoP, Canes_Mean_CtoP, Sonic_Mean_CtoP, TacoBell_Mean_CtoP, Wendys_Mean_CtoP)
-
-Resturant_Means <- bind_cols(resturants1, Mean_CtoP_Rest)
-
-View(Resturant_Means)
 ```
 
 ## Graphs
@@ -143,6 +97,8 @@ ggplot(top_10_CtoP, aes(x=reorder(Item, Calories_to_Price), y=Calories_to_Price,
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
   labs(y='Price per 100 Cal', x='Menu Items')
+
+
 ```
 ```{r}
 ggplot(bottom_10_CtoP, aes(x=reorder(Item, -Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
@@ -151,27 +107,6 @@ ggplot(bottom_10_CtoP, aes(x=reorder(Item, -Calories_to_Price), y=Calories_to_Pr
   labs(y='Price per 100 Cal', x='Menu Items') + 
   scale_fill_brewer(palette="Set1")
 ```
-```{r}
-ggplot(top_10_SStoP, aes(x=reorder(Item, ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
-  geom_bar(stat='identity') + 
-  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(y='Price per 10 grams', x='Menu Items')
-```
-```{r}
-ggplot(bottom_10_SStoP, aes(x=reorder(Item, -ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
-  geom_bar(stat='identity') + 
-  theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
-  labs(y='Price per 10 grams', x='Menu Items') + 
-  scale_fill_brewer(palette="Set1")
-```
-```{r}
-ggplot(Resturant_Means, aes(x=reorder(resturants1, Mean_CtoP_Rest), y=Mean_CtoP_Rest)) + 
-  geom_bar(stat='identity') + 
-  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(y='Price per 100 Calories', x='Resturants')
-```
-
-
 
 
 
