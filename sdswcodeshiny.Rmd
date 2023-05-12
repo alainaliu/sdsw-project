@@ -1,6 +1,6 @@
 ---
-title: "sdswcodeshiny"
-author: "Alaina Liu"
+title: "Project Shiny"
+author: "Alaina Liu and Brendan McGuinness"
 date: "`r Sys.Date()`"
 output: html_document
 runtime: shiny
@@ -14,7 +14,6 @@ library(dplyr)
 library(forcats)
 library(MASS)
 library(shiny)
-library(gridExtra)
 ```
 
 ```{r, eval=TRUE}
