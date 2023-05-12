@@ -18,7 +18,7 @@ library(MASS)
 
 I created two of the same code chunks for reading in the files so we don't have to change the pathnames every time we run it. When you run it, just set the first chunk to eval=FALSE and the second chunk to eval=TRUE.
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -38,7 +38,7 @@ tacoBell <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaura
 wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - wendys.csv")
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 arbys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -64,16 +64,14 @@ alldata <- bind_rows(arbys, blimpie, buffaloWildWings, burgerKing, carlsJr, chic
 ```
 
 ```{r}
-# Getting rid of Cane's sauce...
-alldata <- alldata[-377,]
 # Creating new column for Calories to Price ratio (The amount paid per 100 calories)
 alldata$Calories_to_Price <- c(((alldata$Price)*100)/(alldata$Calories))
 #Sorting the data by Calories to Price Ratio
 alldata_CtoP_sorted <- alldata[order(alldata$Calories_to_Price),]
 #Getting top ten values
-top_10_CtoP <- top_n(alldata_CtoP_sorted, -10)
+top_10_CtoP <- top_n(alldata_CtoP_sorted, -10, Calories_to_Price)
 #Getting bottom ten values
-bottom_10_CtoP <- top_n(alldata_CtoP_sorted, 10)
+bottom_10_CtoP <- top_n(alldata_CtoP_sorted, 10, Calories_to_Price)
 
 View(alldata)
 View(alldata_CtoP_sorted)
@@ -87,11 +85,9 @@ alldata$ServSize_to_Price <- c(((alldata$Price)*10)/(alldata$ServingSize))
 #Sorting data by Serving Size to Price ratio
 alldata_SStoP_sorted <- alldata[order(alldata$ServSize_to_Price),]
 #Getting top ten values
-top_10_SStoP <- top_n(alldata_SStoP_sorted, -10)
+top_10_SStoP <- top_n(alldata_SStoP_sorted, -10, ServSize_to_Price)
 #Getting bottom ten values
-bottom_10_SStoP <- top_n(alldata_SStoP_sorted, 10)
-#Fixing Typo for McDonalds SausageMcMuffin
-alldata[350,3] <- c(111)
+bottom_10_SStoP <- top_n(alldata_SStoP_sorted, 10, ServSize_to_Price)
 
 View(alldata)
 View(alldata_SStoP_sorted)
@@ -105,7 +101,7 @@ Arbys_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Arby's",])$Calories_to_P
 Blimpie_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Blimpie",])$Calories_to_Price)
 BuffWildWings_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Calories_to_Price)
 BurgerKing_Mean_CtoP <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Calories_to_Price)
-CarlsJr_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Calories_to_Price)
+CarlsJr_Mean_CtoP <- mean((na.omit(alldata[alldata$Restaurant == "Carl's Jr.",]))$Calories_to_Price)
 ChikFilA_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Calories_to_Price)
 Chilis_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chili's",])$Calories_to_Price)
 Deltaco_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Del Taco",])$Calories_to_Price)
@@ -119,13 +115,13 @@ Sonic_Mean_CtoP <- mean((alldata[alldata$Restaurant == "SonicDrive-In",])$Calori
 TacoBell_Mean_CtoP <- mean((alldata[alldata$Restaurant == "TacoBell",])$Calories_to_Price)
 Wendys_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Wendy's",])$Calories_to_Price)
 
-resturants1 <- c("Arby's", 'Blimpie', 'Buffalo Wild Wings', 'Burger King', 'Carls Jr', 'ChickFilA', 'Chilis', 'Del Taco', 'In-N-Out', 'Jack In The Box', 'KFC', 'McDonalds', 'Popeyes', 'Raising Canes', 'Sonic Drive-In', 'Taco Bell', "Wendy's") 
+resturants1 <- c("Arby's", 'Blimpie', 'Buffalo Wild Wings', 'Burger King', 'Carls Jr', 'ChickFilA', 'Chilis', 'Del Taco', 'In-N-Out', 'Jack In The Box', 'KFC', 'McDonalds', 'Popeyes', 'Raising Canes', 'Sonic Drive-In', 'Taco Bell', "Wendy's")  
 
 Mean_CtoP_Rest <- c(Arbys_Mean_CtoP, Blimpie_Mean_CtoP, BuffWildWings_Mean_CtoP, BurgerKing_Mean_CtoP, CarlsJr_Mean_CtoP, ChikFilA_Mean_CtoP, Chilis_Mean_CtoP, Deltaco_Mean_CtoP, InNOut_Mean_CtoP, JackInBox_Mean_CtoP, KFC_Mean_CtoP, McDonalds_Mean_CtoP, Popeyes_Mean_CtoP, Canes_Mean_CtoP, Sonic_Mean_CtoP, TacoBell_Mean_CtoP, Wendys_Mean_CtoP)
 
-Resturant_Means <- bind_cols(resturants1, Mean_CtoP_Rest)
+Resturant_Means_CtoP <- bind_cols(resturants1, Mean_CtoP_Rest)
 
-View(Resturant_Means)
+View(Resturant_Means_CtoP)
 ```
 
 ```{r}
@@ -147,6 +143,72 @@ Resturant_Means_SS <- bind_cols(resturants2, Mean_SStoP_Rest)
 
 View(Resturant_Means_SS)
 ```
+```{r}
+#Retrieving average amount of Protein per item for each restaurant
+Arbys_Mean_Protein <- mean((alldata[alldata$Restaurant == "Arby's",])$Protein)
+Blimpie_Mean_Protein <- mean((alldata[alldata$Restaurant == "Blimpie",])$Protein)
+BuffWildWings_Mean_Protein <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Protein)
+BurgerKing_Mean_Protein <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Protein)
+CarlsJr_Mean_Protein <- mean((na.omit(alldata[alldata$Restaurant == "Carl's Jr.",]))$Protein)
+ChikFilA_Mean_Protein <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Protein)
+Chilis_Mean_Protein <- mean((alldata[alldata$Restaurant == "Chili's",])$Protein)
+Deltaco_Mean_Protein <- mean((alldata[alldata$Restaurant == "Del Taco",])$Protein)
+InNOut_Mean_Protein <- mean((alldata[alldata$Restaurant == "In n Out",])$Protein)
+JackInBox_Mean_Protein <- mean((alldata[alldata$Restaurant == "JackInTheBox",])$Protein)
+KFC_Mean_Protein <- mean((alldata[alldata$Restaurant == "KFC",])$Protein)
+McDonalds_Mean_Protein <- mean((alldata[alldata$Restaurant == "McDonalds",])$Protein)
+Popeyes_Mean_Protein <- mean((alldata[alldata$Restaurant == "Popeyes",])$Protein)
+Canes_Mean_Protein <- mean((alldata[alldata$Restaurant == "Raising Cane's",])$Protein)
+Sonic_Mean_Protein <- mean((alldata[alldata$Restaurant == "SonicDrive-In",])$Protein)
+TacoBell_Mean_Protein <- mean((alldata[alldata$Restaurant == "TacoBell",])$Protein)
+Wendys_Mean_Protein <- mean((alldata[alldata$Restaurant == "Wendy's",])$Protein)
+
+Mean_Protein_Rest <- c(Arbys_Mean_Protein, Blimpie_Mean_Protein, BuffWildWings_Mean_Protein, BurgerKing_Mean_Protein, CarlsJr_Mean_Protein, ChikFilA_Mean_Protein, Chilis_Mean_Protein, Deltaco_Mean_Protein, InNOut_Mean_Protein, JackInBox_Mean_Protein, KFC_Mean_Protein, McDonalds_Mean_Protein, Popeyes_Mean_Protein, Canes_Mean_Protein, Sonic_Mean_Protein, TacoBell_Mean_Protein, Wendys_Mean_Protein)
+
+Resturant_Means_Protein <- bind_cols(resturants1, Mean_Protein_Rest)
+
+View(Resturant_Means_Protein)
+```
+
+```{r}
+#Sorting Calories to Price for each resturant so we can see which item is the best deal for each
+Arbys_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Arby's",])
+Blimpie_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Blimpie",])
+BuffWildWings_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Buffalo Wild Wings",])
+BurgerKing_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "BurgerKing",])
+CarlsJr_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Carl's Jr.",])
+ChikFilA_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Chick-fil-a",])
+Chilis_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Chili's",])
+Deltaco_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Del Taco",])
+InNOut_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "In n Out",])
+JackInBox_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "JackInTheBox",])
+KFC_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "KFC",])
+McDonalds_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "McDonalds",])
+Popeyes_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Popeyes",])
+Canes_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Raising Cane's",])
+Sonic_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "SonicDrive-In",])
+TacoBell_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "TacoBell",])
+Wendys_CtoP_sorted <- (alldata_CtoP_sorted[alldata_CtoP_sorted$Restaurant == "Wendy's",])
+
+View(Arbys_Ctop_sorted)
+View(Blimpie_CtoP_sorted)
+View(BuffWildWings_CtoP_sorted)
+View(BurgerKing_CtoP_sorted)
+View(CarlsJr_CtoP_sorted)
+View(ChikFilA_CtoP_sorted)
+View(Chilis_CtoP_sorted)
+View(Deltaco_CtoP_sorted)
+View(InNOut_CtoP_sorted)
+View(JackInBox_CtoP_sorted)
+View(KFC_CtoP_sorted)
+View(McDonalds_CtoP_sorted)
+View(Popeyes_CtoP_sorted)
+View(Canes_CtoP_sorted)
+View(Sonic_CtoP_sorted)
+View(TacoBell_CtoP_sorted)
+View(Wendys_CtoP_sorted)
+```
+
 ## Graphs
 ```{r}
 ggplot(data=alldata, aes(x=Calories, y=Price)) + geom_point()
@@ -187,7 +249,7 @@ ggplot(bottom_10_SStoP, aes(x=reorder(Item, -ServSize_to_Price), y=ServSize_to_P
   scale_fill_brewer(palette="Set1")
 ```
 ```{r}
-ggplot(Resturant_Means, aes(x=reorder(resturants1, Mean_CtoP_Rest), y=Mean_CtoP_Rest)) + 
+ggplot(Resturant_Means_CtoP, aes(x=reorder(resturants1, Mean_CtoP_Rest), y=Mean_CtoP_Rest)) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
   labs(y='Price per 100 Calories', x='Resturants')
@@ -199,6 +261,12 @@ ggplot(Resturant_Means_SS, aes(x=reorder(resturants2, Mean_SStoP_Rest), y=Mean_S
   labs(y='Price per 10 grams', x='Resturants')
 ```
 ```{r}
+ggplot(Resturant_Means_Protein, aes(x=reorder(resturants1, Mean_Protein_Rest), y=Mean_Protein_Rest)) + 
+  geom_bar(stat='identity') + 
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(y='Protein in grams', x='Resturants')
+```
+```{r}
 # Creating a linear regression model predicting price from nutrition into
 restaurant_fit <- lm(data=na.omit(alldata), Price ~ ServingSize + Calories + CaloriesFromFat + TotalFat + SaturatedFat + TransFat + Cholesterol + Sodium + Carbohydrates + DietaryFiber + Sugars + Protein)
 summary(restaurant_fit)
@@ -206,5 +274,12 @@ summary(restaurant_fit)
 ```{r}
 stepAIC(restaurant_fit, direction="backward", k=2)
 ```
+
+
+
+
+
+
+
 
 
