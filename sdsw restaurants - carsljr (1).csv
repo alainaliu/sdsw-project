@@ -1,21 +1,4 @@
 Restaurant,Item,ServingSize,Price,Calories,CaloriesFromFat,TotalFat,SaturatedFat,TransFat,Cholesterol,Sodium,Carbohydrates,DietaryFiber,Sugars,Protein
-Carl's Jr.,The Breakfast Burger,289,,810,370,41,15,1,280,1600,69,4,13,42
-Carl's Jr.,Grilled Cheese Breakfast Sandwich (Ham),204,,490,220,24,10,0.5,245,1520,43,2,5,26
-Carl's Jr.,Grilled Cheese Breakfast Sandwich (Sausage),211,,640,370,41,16,0.5,260,1530,43,2,5,27
-Carl's Jr.,Grilled Cheese Breakfast Sandwich (Bacon),190,,540,260,29,12,0.5,250,1520,43,2,5,28
-Carl's Jr.,Steak & Egg Burrito,264,,530,230,26,10,0,450,1510,41,2,3,32
-Carl's Jr.,Loaded Breakfast Burrito,265,,650,330,36,12,0,430,1240,50,3,2,29
-Carl's Jr.,Big Country® Breakfast Burrito,240,,620,310,34,10,0,420,1170,49,3,2,26
-Carl's Jr.,"Bacon, & Egg, & Cheese Burrito",213,,620,314,35,14,0.5,460,1600,37,1,2,37
-Carl's Jr.,French Toast Dips® 5 pcs,184,,540,170,19,3.5,0,0,620,84,3,20,9
-Carl's Jr.,Hash Rounds® - Small,84,,260,140,160,3,0,0,320,23,2,1,2
-Carl's Jr.,Hash Rounds® - Medium,102,,320,171,19,4,0,0,400,28,3,1,3
-Carl's Jr.,Hash Rounds® - Large,144,,450,240,27,5,1,0,560,40,4,1,4
-Carl's Jr.,"Sausage, Egg & Cheese Biscuit",184,,640,382,42,19,0,235,1830,44,0,4,19
-Carl's Jr.,"Bacon, Egg & Cheese Biscuit",157,,520,262,29,14,0,225,1730,43,0,4,19
-Carl's Jr.,Monster Biscuit®,250,,830,501,56,25,0.5,460,2420,47,0,5,34
-Carl's Jr.,Biscuit 'N' Gravy™,235,,500,245,27,13,2.5,10,1780,53,0,4,8
-Carl's Jr.,Biscuit,93,,330,147,16,9,0,0,1160,40,0,3,5
 Carl's Jr.,Famous Star® with Cheese ,269,6.19,670,342,38,13,1,75,1280,56,3,12,28
 Carl's Jr.,Super Star® with Cheese ,345,7.79,930,516,57,23,2,145,1610,56,3,12,47
 Carl's Jr.,Western Bacon Cheeseburger® ,254,7.09,780,330,36,14,1,85,1720,77,4,16,38
@@ -25,12 +8,6 @@ Carl's Jr.,Original Angus Burger ,332,8.09,780,430,48,15,2,110,1660,56,3,14,34
 Carl's Jr.,Guacamole Bacon Angus Burger ,375,9.39,970,580,65,19,2,150,1750,55,5,11,44
 Carl's Jr.,Jalapeño Angus Burger ,323,8.39,830,480,54,16,2,130,1450,53,4,10,35
 Carl's Jr.,California Classic Double Cheeseburger ,260,3.99,590,370,41,14,1.5,85,1100,40,2,9,23
-Carl's Jr.,Jalapeno Double Cheeseburger ,388,,980,580,64,24,2,145,1480,56,4,11,47
-Carl's Jr.,Beyond™ Famous Star® with Cheese ,311,,710,360,40,12,0,30,1520,61,5,12,30
-Carl's Jr.,Double Original Angus Burger ,453,,1140,670,75,28,4,240,2060,56,6,13,65
-Carl's Jr.,Double Guacamole Bacon Angus Burger ,493,,1340,840,93,31,4,265,2300,57,6,13,73
-Carl's Jr.,Double Jalapeño Angus Burger ,441,,1200,740,82,29,4,245,2000,54,5,11,64
-Carl's Jr.,Double Cheeseburger ,159,,380,190,21,8,1,60,750,34,1,6,19
 Carl's Jr.,Big Hamburger ,210,4.49,480,160,18,8,0.5,50,970,55,3,13,25
 Carl's Jr.,Big Hamburger with Cheese ,226,4.88,540,200,23,11,1,65,1240,56,3,13,28
 Carl's Jr.,Hand-Breaded Chicken Sandwich ,252,7.29,650,290,32,5,0,85,2660,59,2,7,30
@@ -41,6 +18,5 @@ Carl's Jr.,Hand-Breaded Bacon Swiss Chicken Sandwich ,299,8.49,780,380,42,10,0,1
 Carl's Jr.,Hand-Breaded Chicken Tenders™ 3 pcs ,128,6.19,260,110,13,3,0,70,770,13,2,0,25
 Carl's Jr.,Hand-Breaded Chicken Tenders™ 5 pcs ,213,8.39,440,190,21,5,0,115,1290,21,3,0,41
 Carl's Jr.,Spicy Chicken Sandwich ,177,3.39,490,260,29,6,0,40,1320,43,4,4,14
-Carl's Jr.,Chicken Stars™ 4 pcs ,61,,180,90,10,2,0,35,320,13,2,0,9
 Carl's Jr.,Chicken Stars™ 6 pcs ,91,4.99,270,140,15,3,0,50,480,19,3,0,14
 Carl's Jr.,Chicken Stars™ 9 pcs ,137,6.89,410,210,23,5,0,75,710,29,5,0,21
