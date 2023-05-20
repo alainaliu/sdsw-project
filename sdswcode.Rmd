@@ -18,7 +18,7 @@ library(MASS)
 
 I created two of the same code chunks for reading in the files so we don't have to change the pathnames every time we run it. When you run it, just set the first chunk to eval=FALSE and the second chunk to eval=TRUE.
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -38,7 +38,7 @@ tacoBell <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaura
 wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - wendys.csv")
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 arbys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -61,6 +61,15 @@ wendys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-ma
 ```{r}
 # combine everything into one dataset
 alldata <- bind_rows(arbys, blimpie, buffaloWildWings, burgerKing, carlsJr, chickFilA, chilis, delTaco, inNOut, jackInTheBox, KFC, mcdonalds, popeyes, raisingCanes, sonic, tacoBell, wendys)
+
+# replacing restaurant names
+alldata[alldata == "BurgerKing"] <- "Burger King"
+alldata[alldata == "Chick-fil-a"] <- "Chick-Fil-A"
+alldata[alldata == "In n out"] <- "In-N-Out Burger"
+alldata[alldata == "JackInTheBox"] <- "Jack in the Box"
+alldata[alldata == "McDonalds"] <- "McDonald's"
+alldata[alldata == "SonicDrive-In"] <- "Sonic Drive-In"
+alldata[alldata == "TacoBell"] <- "Taco Bell"
 ```
 
 ```{r}
@@ -73,10 +82,10 @@ top_10_CtoP <- top_n(alldata_CtoP_sorted, -10, Calories_to_Price)
 #Getting bottom ten values
 bottom_10_CtoP <- top_n(alldata_CtoP_sorted, 10, Calories_to_Price)
 
-View(alldata)
-View(alldata_CtoP_sorted)
-View(top_10_CtoP)
-View(bottom_10_CtoP)
+#View(alldata)
+#View(alldata_CtoP_sorted)
+#View(top_10_CtoP)
+#View(bottom_10_CtoP)
 ```
 
 ```{r}
@@ -89,10 +98,10 @@ top_10_SStoP <- top_n(alldata_SStoP_sorted, -10, ServSize_to_Price)
 #Getting bottom ten values
 bottom_10_SStoP <- top_n(alldata_SStoP_sorted, 10, ServSize_to_Price)
 
-View(alldata)
-View(alldata_SStoP_sorted)
-View(top_10_SStoP)
-View(bottom_10_SStoP)
+#View(alldata)
+#View(alldata_SStoP_sorted)
+#View(top_10_SStoP)
+#View(bottom_10_SStoP)
 ```
 
 ```{r}
@@ -101,7 +110,7 @@ alldata$Protein_to_Calories <- c(((alldata$Protein)*10)/(alldata$Calories))
 #Sorting the data by Protein to Cal Ratio
 alldata_PtoCal_sorted <- alldata[order(alldata$Protein_to_Calories),]
 
-View(alldata_PtoCal_sorted)
+#View(alldata_PtoCal_sorted)
 ```
 
 ```{r}
@@ -110,7 +119,7 @@ alldata$Carbohydrates_to_Calories <- c(((alldata$Carbohydrates)*10)/(alldata$Cal
 #Sorting the data by Carbohydrates to Calories Ratio
 alldata_CartoCal_sorted <- alldata[order(alldata$Carbohydrates_to_Calories),]
 
-View(alldata_CartoCal_sorted)
+#View(alldata_CartoCal_sorted)
 ```
 
 ```{r}
@@ -119,7 +128,7 @@ alldata$Sodium_to_Calories <- c(((alldata$Sodium)*10)/(alldata$Calories))
 #Sorting the data by Carbohydrates to Calories Ratio
 alldata_StoCal_sorted <- alldata[order(alldata$Sodium_to_Calories),]
 
-View(alldata_StoCal_sorted)
+#View(alldata_StoCal_sorted)
 ```
 
 ```{r}
@@ -128,7 +137,7 @@ alldata$SaturatedFat_to_Calories <- c(((alldata$SaturatedFat)*10)/(alldata$Calor
 #Sorting the data by Saturated Fat to Calories Ratio
 alldata_SFtoCal_sorted <- alldata[order(alldata$SaturatedFat_to_Calories),]
 
-View(alldata_SFtoCal_sorted)
+#View(alldata_SFtoCal_sorted)
 ```
 
 ```{r}
@@ -137,57 +146,86 @@ alldata$DietaryFiber_to_Calories <- c(((alldata$DietaryFiber)*100)/(alldata$Calo
 #Sorting the data by Dietary Fiber to Calories Ratio
 alldata_DFtoCal_sorted <- alldata[order(alldata$DietaryFiber_to_Calories),]
 
-View(alldata_DFtoCal_sorted)
+#View(alldata_DFtoCal_sorted)
 ```
+
+```{r}
+# creating a dataframe of averages
+alldata_avg <- alldata %>% 
+  group_by(Restaurant) %>%
+  summarize(AvgServingSize = mean(ServingSize),
+            AvgPrice = mean(Price),
+            AvgCalories = mean(Calories),
+            AvgCaloriesFroMFat = mean(CaloriesFromFat),
+            AvgTotalFat = mean(TotalFat),
+            AvgSaturatedFat = mean(SaturatedFat),
+            AvgTransFat = mean(TransFat),
+            AvgCholesterol = mean(Cholesterol),
+            AvgSodium = mean(Sodium),
+            AvgCarbohydrates = mean(Carbohydrates),
+            AvgDietaryFiber = mean(DietaryFiber),
+            AvgSugars = mean(Sugars),
+            AvgProtein = mean(Protein),
+            AvgCalories_to_Price = mean(Calories_to_Price),
+            AvgServSize_to_Price = mean(ServSize_to_Price),
+            AvgProtein_to_Calories = mean(Protein_to_Calories),
+            AvgCabohydrates_to_Calories = mean(Carbohydrates_to_Calories),
+            AvgSodium_to_Calories = mean(Sodium_to_Calories),
+            AvgSaturatedFat_to_Calories = mean(SaturatedFat_to_Calories),
+            AvgDietaryFiber_to_Calories = mean(DietaryFiber_to_Calories))
+
+View(alldata_avg)
+```
+
 
 ```{r}
 #Retrieving the average Calories to Price ratio for each restaurant 
 Arbys_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Arby's",])$Calories_to_Price)
 Blimpie_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Blimpie",])$Calories_to_Price)
 BuffWildWings_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Calories_to_Price)
-BurgerKing_Mean_CtoP <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Calories_to_Price)
+BurgerKing_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Burger King",])$Calories_to_Price)
 CarlsJr_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Calories_to_Price)
-ChikFilA_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Calories_to_Price)
+ChikFilA_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chick-Fil-A",])$Calories_to_Price)
 Chilis_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Chili's",])$Calories_to_Price)
 Deltaco_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Del Taco",])$Calories_to_Price)
-InNOut_Mean_CtoP <- mean((alldata[alldata$Restaurant == "In n Out",])$Calories_to_Price)
-JackInBox_Mean_CtoP <- mean((alldata[alldata$Restaurant == "JackInTheBox",])$Calories_to_Price)
+InNOut_Mean_CtoP <- mean((alldata[alldata$Restaurant == "In-N-Out Burger",])$Calories_to_Price)
+JackInBox_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Jack in the Box",])$Calories_to_Price)
 KFC_Mean_CtoP <- mean((alldata[alldata$Restaurant == "KFC",])$Calories_to_Price)
-McDonalds_Mean_CtoP <- mean((alldata[alldata$Restaurant == "McDonalds",])$Calories_to_Price)
+McDonalds_Mean_CtoP <- mean((alldata[alldata$Restaurant == "McDonald's",])$Calories_to_Price)
 Popeyes_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Popeyes",])$Calories_to_Price)
 Canes_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Raising Cane's",])$Calories_to_Price)
-Sonic_Mean_CtoP <- mean((alldata[alldata$Restaurant == "SonicDrive-In",])$Calories_to_Price)
-TacoBell_Mean_CtoP <- mean((alldata[alldata$Restaurant == "TacoBell",])$Calories_to_Price)
+Sonic_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Sonic Drive-In",])$Calories_to_Price)
+TacoBell_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Taco Bell",])$Calories_to_Price)
 Wendys_Mean_CtoP <- mean((alldata[alldata$Restaurant == "Wendy's",])$Calories_to_Price)
 
-resturants1 <- c("Arby's", 'Blimpie', 'Buffalo Wild Wings', 'Burger King', 'Carls Jr', 'ChickFilA', 'Chilis', 'Del Taco', 'In-N-Out', 'Jack In The Box', 'KFC', 'McDonalds', 'Popeyes', 'Raising Canes', 'Sonic Drive-In', 'Taco Bell', "Wendy's")  
+restaurants1 <- c("Arby's", 'Blimpie', 'Buffalo Wild Wings', 'Burger King', 'Carls Jr', 'Chick-Fil-A', 'Chili\'s', 'Del Taco', 'In-N-Out Burger', 'Jack in the Box', 'KFC', 'McDonald\'s', 'Popeyes', 'Raising Cane\'s', 'Sonic Drive-In', 'Taco Bell', "Wendy's")
 
 Mean_CtoP_Rest <- c(Arbys_Mean_CtoP, Blimpie_Mean_CtoP, BuffWildWings_Mean_CtoP, BurgerKing_Mean_CtoP, CarlsJr_Mean_CtoP, ChikFilA_Mean_CtoP, Chilis_Mean_CtoP, Deltaco_Mean_CtoP, InNOut_Mean_CtoP, JackInBox_Mean_CtoP, KFC_Mean_CtoP, McDonalds_Mean_CtoP, Popeyes_Mean_CtoP, Canes_Mean_CtoP, Sonic_Mean_CtoP, TacoBell_Mean_CtoP, Wendys_Mean_CtoP)
 
-Resturant_Means_CtoP <- bind_cols(resturants1, Mean_CtoP_Rest)
+Restaurant_Means_CtoP <- bind_cols(restaurants1, Mean_CtoP_Rest)
 
-View(Resturant_Means_CtoP)
+#View(Restaurant_Means_CtoP)
 ```
 
 ```{r}
 #Retrieving the average Serving Size to Price ratio for each restaurant 
 Arbys_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Arby's",])$ServSize_to_Price)
 Blimpie_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Blimpie",])$ServSize_to_Price)
-BurgerKing_Mean_SStoP <- mean((alldata[alldata$Restaurant == "BurgerKing",])$ServSize_to_Price)
+BurgerKing_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Burger King",])$ServSize_to_Price)
 CarlsJr_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$ServSize_to_Price)
-ChikFilA_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$ServSize_to_Price)
+ChikFilA_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Chick-Fil-A",])$ServSize_to_Price)
 Deltaco_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Del Taco",])$ServSize_to_Price)
-InNOut_Mean_SStoP <- mean((alldata[alldata$Restaurant == "In n Out",])$ServSize_to_Price)
-JackInBox_Mean_SStoP <- mean((alldata[alldata$Restaurant == "JackInTheBox",])$ServSize_to_Price)
-McDonalds_Mean_SStoP <- mean((alldata[alldata$Restaurant == "McDonalds",])$ServSize_to_Price)
+InNOut_Mean_SStoP <- mean((alldata[alldata$Restaurant == "In-N-Out Burger",])$ServSize_to_Price)
+JackInBox_Mean_SStoP <- mean((alldata[alldata$Restaurant == "Jack in the Box",])$ServSize_to_Price)
+McDonalds_Mean_SStoP <- mean((alldata[alldata$Restaurant == "McDonald's",])$ServSize_to_Price)
 
-resturants2 <- c("Arby's", 'Blimpie', 'Burger King', "Carl's Jr.", 'ChickFilA', 'Del Taco', 'In-N-Out', 'Jack In The Box', 'McDonalds')  
+restaurants2 <- c("Arby's", 'Blimpie', 'Burger King', "Carl's Jr.", 'Chick-Fil-A', 'Del Taco', 'In-N-Out Burger', 'Jack in the Box', 'McDonald\'s')  
 
 Mean_SStoP_Rest <- c(Arbys_Mean_SStoP, Blimpie_Mean_SStoP, BurgerKing_Mean_SStoP, CarlsJr_Mean_SStoP, ChikFilA_Mean_SStoP, Deltaco_Mean_SStoP, InNOut_Mean_SStoP, JackInBox_Mean_SStoP, McDonalds_Mean_SStoP)
 
-Resturant_Means_SS <- bind_cols(resturants2, Mean_SStoP_Rest)
+Restaurant_Means_SS <- bind_cols(restaurants2, Mean_SStoP_Rest)
 
-View(Resturant_Means_SS)
+View(Restaurant_Means_SS)
 ```
 
 ```{r}
@@ -195,7 +233,7 @@ View(Resturant_Means_SS)
 Arbys_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Arby's",])$Protein_to_Calories)
 Blimpie_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Blimpie",])$Protein_to_Calories)
 BuffWildWings_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Protein_to_Calories)
-BurgerKing_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Protein_to_Calories)
+BurgerKing_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Burger King",])$Protein_to_Calories)
 CarlsJr_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Protein_to_Calories)
 ChikFilA_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Protein_to_Calories)
 Chilis_Mean_PtoCal <- mean((alldata[alldata$Restaurant == "Chili's",])$Protein_to_Calories)
@@ -222,7 +260,7 @@ View(Resturant_Means_PtoCal)
 Arbys_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Arby's",])$Carbohydrates_to_Calories)
 Blimpie_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Blimpie",])$Carbohydrates_to_Calories)
 BuffWildWings_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Carbohydrates_to_Calories)
-BurgerKing_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Carbohydrates_to_Calories)
+BurgerKing_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Burger King",])$Carbohydrates_to_Calories)
 CarlsJr_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Carbohydrates_to_Calories)
 ChikFilA_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Carbohydrates_to_Calories)
 Chilis_Mean_CartoCal <- mean((alldata[alldata$Restaurant == "Chili's",])$Carbohydrates_to_Calories)
@@ -249,7 +287,7 @@ View(Resturant_Means_CartoCal)
 Arbys_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Arby's",])$Sodium_to_Calories)
 Blimpie_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Blimpie",])$Sodium_to_Calories)
 BuffWildWings_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Sodium_to_Calories)
-BurgerKing_Mean_StoCal <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Sodium_to_Calories)
+BurgerKing_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Burger King",])$Sodium_to_Calories)
 CarlsJr_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Sodium_to_Calories)
 ChikFilA_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Sodium_to_Calories)
 Chilis_Mean_StoCal <- mean((alldata[alldata$Restaurant == "Chili's",])$Sodium_to_Calories)
@@ -276,7 +314,7 @@ View(Resturant_Means_StoCal)
 Arbys_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Arby's",])$SaturatedFat_to_Calories)
 Blimpie_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Blimpie",])$SaturatedFat_to_Calories)
 BuffWildWings_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$SaturatedFat_to_Calories)
-BurgerKing_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "BurgerKing",])$SaturatedFat_to_Calories)
+BurgerKing_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Burger King",])$SaturatedFat_to_Calories)
 CarlsJr_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$SaturatedFat_to_Calories)
 ChikFilA_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$SaturatedFat_to_Calories)
 Chilis_Mean_SFtoCal <- mean((alldata[alldata$Restaurant == "Chili's",])$SaturatedFat_to_Calories)
@@ -303,7 +341,7 @@ View(Resturant_Means_SFtoCal)
 Arbys_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Arby's",])$DietaryFiber_to_Calories)
 Blimpie_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Blimpie",])$DietaryFiber_to_Calories)
 BuffWildWings_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$DietaryFiber_to_Calories)
-BurgerKing_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "BurgerKing",])$DietaryFiber_to_Calories)
+BurgerKing_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Burger King",])$DietaryFiber_to_Calories)
 CarlsJr_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$DietaryFiber_to_Calories)
 ChikFilA_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$DietaryFiber_to_Calories)
 Chilis_Mean_DFtoCal <- mean((alldata[alldata$Restaurant == "Chili's",])$DietaryFiber_to_Calories)
@@ -330,7 +368,7 @@ View(Resturant_Means_DFtoCal)
 Arbys_Mean_Protein <- mean((alldata[alldata$Restaurant == "Arby's",])$Protein)
 Blimpie_Mean_Protein <- mean((alldata[alldata$Restaurant == "Blimpie",])$Protein)
 BuffWildWings_Mean_Protein <- mean((alldata[alldata$Restaurant == "Buffalo Wild Wings",])$Protein)
-BurgerKing_Mean_Protein <- mean((alldata[alldata$Restaurant == "BurgerKing",])$Protein)
+BurgerKing_Mean_Protein <- mean((alldata[alldata$Restaurant == "Burger King",])$Protein)
 CarlsJr_Mean_Protein <- mean((alldata[alldata$Restaurant == "Carl's Jr.",])$Protein)
 ChikFilA_Mean_Protein <- mean((alldata[alldata$Restaurant == "Chick-fil-a",])$Protein)
 Chilis_Mean_Protein <- mean((alldata[alldata$Restaurant == "Chili's",])$Protein)
