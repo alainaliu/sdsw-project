@@ -392,8 +392,8 @@ View(Resturant_Means_Protein)
 
 ```{r}
 # Retrieving the percentile for each restaurant item
-alldata_CtoP_sorted$rank <- c(439:0)
-alldata_CtoP_sorted$Percentile <- round((alldata_CtoP_sorted$rank*100)/440, digits = 1)
+alldata_CtoP_sorted$rank <- c(1:440)
+alldata_CtoP_sorted$Percentile <- round(((441-alldata_CtoP_sorted$rank)*100)/440, digits = 0)
 
 View(alldata_CtoP_sorted)
 
