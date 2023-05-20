@@ -1,0 +1,193 @@
+---
+title: "SDSW Project New"
+author: "Alaina Liu and Brendan McGuinness"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+runtime: shiny
+---
+
+```{r setup, include=FALSE,  message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(forcats)
+library(MASS)
+library(shiny)
+library(kableExtra)
+```
+
+```{r, eval=TRUE}
+arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
+blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
+buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
+burgerKing <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - burgerking.csv")
+carlsJr <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - carsljr (1).csv")
+chickFilA <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - chickfila.csv")
+chilis <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - chilis (1).csv")
+delTaco <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - deltaco (1).csv")
+inNOut <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - innout (1).csv")
+jackInTheBox <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - JackintheBox.csv")
+KFC <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - KFC.csv")
+mcdonalds <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - mcdonalds.csv")
+popeyes <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Popeyes.csv")
+raisingCanes <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - raisingcanes (1).csv")
+sonic <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Sonic Drive-In.csv")
+tacoBell <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - tacobell.csv")
+wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - wendys.csv")
+```
+
+```{r, eval=FALSE}
+arbys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Arbys.csv")
+blimpie <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
+buffaloWildWings <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
+burgerKing <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - burgerking.csv")
+carlsJr <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - carsljr (1).csv")
+chickFilA <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - chickfila.csv")
+chilis <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - chilis (1).csv")
+delTaco <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - deltaco (1).csv")
+inNOut <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - innout (1).csv")
+jackInTheBox <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - JackintheBox.csv")
+KFC <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - KFC.csv")
+mcdonalds <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - mcdonalds.csv")
+popeyes <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Popeyes.csv")
+raisingCanes <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - raisingcanes (1).csv")
+sonic <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Sonic Drive-In.csv")
+tacoBell <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - tacobell.csv")
+wendys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - wendys.csv")
+```
+
+```{r}
+# combine everything into one dataset
+alldata <- bind_rows(arbys, blimpie, buffaloWildWings, burgerKing, carlsJr, chickFilA, chilis, delTaco, inNOut, jackInTheBox, KFC, mcdonalds, popeyes, raisingCanes, sonic, tacoBell, wendys)
+
+# replacing restaurant names
+alldata[alldata == "BurgerKing"] <- "Burger King"
+alldata[alldata == "Chick-fil-a"] <- "Chick-Fil-A"
+alldata[alldata == "In n out"] <- "In-N-Out Burger"
+alldata[alldata == "JackInTheBox"] <- "Jack in the Box"
+alldata[alldata == "McDonalds"] <- "McDonald's"
+alldata[alldata == "SonicDrive-In"] <- "Sonic Drive-In"
+alldata[alldata == "TacoBell"] <- "Taco Bell"
+
+# for graphs
+colors <- c("Arby's"="#990000", "Blimpie"="#FF3333", "Buffalo Wild Wings"="#FF6600", "Burger King"="#FF9900", "Carl's Jr."="#FFCC00", "Chick-Fil-A"="#FFFF00", "Chili's"="#99FF33", "Del Taco"="#66CC00", "In-N-Out"="#339900", "Jack in the Box"="#006600", "KFC"="#339966", "McDonald's"="#009999", "Popeyes"="#0099CC", "Raising Cane's"="#3399FF", "Sonic Drive-In"="#0066CC", "Taco Bell"="#0000CC", "Wendy's"="#6600CC")
+```
+
+```{r}
+#
+checkboxInput("color", 
+                label="Color by Restaurant?", 
+                value=FALSE)
+
+fluidRow(
+  column(6,
+    renderPlot({
+      price_cal <- ggplot(data=alldata, aes(x=Calories, y=Price))
+      if (input$color==TRUE){
+        price_cal + geom_point(aes(color=Restaurant)) + scale_color_manual(values=colors)
+      } else {
+        price_cal + geom_point()
+      }
+    })),
+  column(6,
+    renderPlot({
+      ss_cal <- ggplot(data=alldata, aes(x=Calories, y=ServingSize))
+      if (input$color==TRUE){
+        ss_cal + geom_point(aes(color=Restaurant)) + scale_color_manual(values=colors)
+      } else {
+        ss_cal + geom_point()
+      }
+    }))
+)
+```
+
+```{r}
+checkboxGroupInput("restaurant",
+                   label="Show:",
+                   c("Arby's", "Blimpie", "Buffalo Wild Wings", "Burger King", "Carl's Jr.", "Chick-Fil-A", "Chili's", "Del Taco", "In-N-Out", "Jack in the Box", "KFC", "McDonald's", "Popeyes", "Raising Cane's", "Sonic Drive-In", "Taco Bell", "Wendy's"),
+                   inline=TRUE
+)
+
+fluidRow(
+  column(6,
+    renderPlot({
+      new_alldata <- alldata[alldata$Restaurant==input$restaurant,]
+      ggplot(data=new_alldata, aes(x=Calories, y=Price)) + 
+        geom_point(aes(color=Restaurant), size=1, alpha=0.5) + 
+        scale_color_manual(values=colors) + 
+        xlim(0, 2000) + ylim(0, 30)
+    })),
+  column(6,
+    renderPlot({
+      new_alldata <- alldata[alldata$Restaurant==input$restaurant,]
+      ggplot(data=new_alldata, aes(x=ServingSize, y=Price)) + 
+        geom_point(aes(color=Restaurant), size=1, alpha=0.5) + 
+        scale_color_manual(values=colors) + 
+        xlim(0, 2000) + ylim(0, 30)
+  }))
+)
+```
+
+
+```{r}
+# Calories to Price ratio (The amount paid per 100 calories)
+alldata$Calories_to_Price <- c(((alldata$Price)*100)/(alldata$Calories))
+
+# Serving Size to Price ratio (The amount paid per 10 grams)
+alldata$ServSize_to_Price <- c(((alldata$Price)*10)/(alldata$ServingSize))
+
+# Protein to Calories ratio (The amount of Protein in grams per 10 calories)
+alldata$Protein_to_Calories <- c(((alldata$Protein)*10)/(alldata$Calories))
+
+# Carbohydrates to Calories ratio (The amount of Carbohydrates in grams per 10 calories)
+alldata$Carbohydrates_to_Calories <- c(((alldata$Carbohydrates)*10)/(alldata$Calories))
+
+# Sodium to Calories ratio (The amount of sodium in milligrams per 10 calories)
+alldata$Sodium_to_Calories <- c(((alldata$Sodium)*10)/(alldata$Calories))
+
+# Saturated Fat to Calories ratio (The amount of saturated fat in grams per 10 calories)
+alldata$SaturatedFat_to_Calories <- c(((alldata$SaturatedFat)*10)/(alldata$Calories))
+
+# Dietary Fiber to Calories ratio (The amount of Dietary Fiber in grams per 100 calories)
+alldata$DietaryFiber_to_Calories <- c(((alldata$DietaryFiber)*100)/(alldata$Calories))
+```
+
+```{r}
+#CtoP_ranking <- alldata[]
+# dataframe with restaurants, items, calories, price, CtoP
+# try to make interactive with shiny
+
+head(alldata) %>% kable()
+```
+
+```{r}
+# creating a dataframe of averages
+alldata_avg <- alldata %>% 
+  group_by(Restaurant) %>%
+  summarize(AvgServingSize = mean(ServingSize),
+            AvgPrice = mean(Price),
+            AvgCalories = mean(Calories),
+            AvgCaloriesFroMFat = mean(CaloriesFromFat),
+            AvgTotalFat = mean(TotalFat),
+            AvgSaturatedFat = mean(SaturatedFat),
+            AvgTransFat = mean(TransFat),
+            AvgCholesterol = mean(Cholesterol),
+            AvgSodium = mean(Sodium),
+            AvgCarbohydrates = mean(Carbohydrates),
+            AvgDietaryFiber = mean(DietaryFiber),
+            AvgSugars = mean(Sugars),
+            AvgProtein = mean(Protein),
+            AvgCalories_to_Price = mean(Calories_to_Price),
+            AvgServSize_to_Price = mean(ServSize_to_Price),
+            AvgProtein_to_Calories = mean(Protein_to_Calories),
+            AvgCabohydrates_to_Calories = mean(Carbohydrates_to_Calories),
+            AvgSodium_to_Calories = mean(Sodium_to_Calories),
+            AvgSaturatedFat_to_Calories = mean(SaturatedFat_to_Calories),
+            AvgDietaryFiber_to_Calories = mean(DietaryFiber_to_Calories))
+
+View(alldata_avg)
+```
+
