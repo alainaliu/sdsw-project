@@ -1,5 +1,5 @@
 ---
-title: "SDSW Project New"
+title: "Best Bang for Your Buck - Fast Food Restaurants"
 author: "Alaina Liu and Brendan McGuinness"
 date: "`r Sys.Date()`"
 output:
@@ -8,8 +8,8 @@ output:
 runtime: shiny
 ---
 
-```{r setup, include=FALSE,  message=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,  message=FALSE, warning=FALSE)
 library(tidyverse)
 library(tidyr)
 library(ggplot2)
@@ -19,9 +19,10 @@ library(MASS)
 library(shiny)
 library(kableExtra)
 library(DT)
+library(patchwork)
 ```
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, echo=FALSE}
 arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -43,7 +44,7 @@ wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurant
 salesdata <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - sales.csv")
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 arbys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -170,36 +171,49 @@ CtoPdata <- alldata %>%
 DT::datatable(CtoPdata, filter="bottom")
 ```
 
-## Graphs
+
 
 ```{r}
 # top 10 Calories to Price ratio
-ggplot(data=arrange(alldata, Calories_to_Price)[1:10,], aes(x=reorder(Item, Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
+p1 <- ggplot(data=arrange(alldata, Calories_to_Price)[1:10,], aes(x=reorder(Item, Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
   geom_bar(stat='identity') + 
   scale_fill_manual(values=colors) + 
   theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
-  labs(y='Price per 100 Cal', x='Menu Items')
+  labs(y='Price per 100 Cal', x='Menu Items') + 
+  ggtitle("Top 10 Calories to Price Ratio")
 
 # bottom 10 Calories to Price ratio
-ggplot(data=arrange(alldata, -Calories_to_Price)[1:10,], aes(x=reorder(Item, -Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
+p2 <- ggplot(data=arrange(alldata, -Calories_to_Price)[1:10,], aes(x=reorder(Item, -Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
   geom_bar(stat='identity') + 
   scale_fill_manual(values=colors) + 
   theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
-  labs(y='Price per 100 Cal', x='Menu Items')
+  labs(y='Price per 100 Cal', x='Menu Items') + 
+  ggtitle("Bottom 10 Calories to Price Ratio")
 
 # top 10 Serving Size to Price ratio
-ggplot(data=arrange(alldata, ServSize_to_Price)[1:10,], aes(x=reorder(Item, ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
+p3 <- ggplot(data=arrange(alldata, ServSize_to_Price)[1:10,], aes(x=reorder(Item, ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
   geom_bar(stat='identity') + 
   scale_fill_manual(values=colors) + 
   theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
-  labs(y='Price per 10 grams', x='Menu Items')
+  labs(y='Price per 10 grams', x='Menu Items') + 
+  ggtitle("Top 10 Serving Size to Price Ratio")
 
 # bottom 10 Serving Size to Price ratio
-ggplot(data=arrange(alldata, -ServSize_to_Price)[1:10,], aes(x=reorder(Item, -ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
+p4 <- ggplot(data=arrange(alldata, -ServSize_to_Price)[1:10,], aes(x=reorder(Item, -ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
   geom_bar(stat='identity') + 
   scale_fill_manual(values=colors) + 
   theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
-  labs(y='Price per 10 grams', x='Menu Items')
+  labs(y='Price per 10 grams', x='Menu Items') + 
+  ggtitle("Bottom 10 Serving Size to Price Ratio")
+```
+```{r}
+titlePanel("Calories to Price and Serving Size to Price Ratios")
+fluidRow(
+  column(6, renderPlot({p1})),
+  column(6, renderPlot({p2})),
+  column(6, renderPlot({p3})),
+  column(6, renderPlot({p4}))
+)
 ```
 
 
@@ -231,56 +245,81 @@ alldata_avg <- alldata %>%
 ```
 
 ```{r}
-par(mfrow = c(1, 2))
 # Average Calories to Price ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgCalories_to_Price, y=reorder(Restaurant, -AvgCalories_to_Price))) + 
+p5 <- ggplot(alldata_avg, aes(x=AvgCalories_to_Price, y=reorder(Restaurant, -AvgCalories_to_Price))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Price per 100 Calories', y='Restaurants')
+  labs(x='Price per 100 Calories', y='Restaurants') + 
+  ggtitle("Average Calories to Price ratio for each restaurant")
 
 # Average Serving Size to Price ratio for each restaurant
-ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes(x=AvgServSize_to_Price, y=reorder(Restaurant, -AvgServSize_to_Price))) + 
+p6 <- ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes(x=AvgServSize_to_Price, y=reorder(Restaurant, -AvgServSize_to_Price))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Price per 10 grams', y='Restaurants')
+  labs(x='Price per 10 grams', y='Restaurants') + 
+  ggtitle("Average Serving Size to Price ratio for each restaurant")
 
-par(mfrow = c(3, 2))
 # Average Protein to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, -AvgProtein_to_Calories))) + 
+p7 <- ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, -AvgProtein_to_Calories))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Avg Protein (g) per 10 Calories', y='Restaurants')
+  labs(x='Avg Protein (g) per 10 Calories', y='Restaurants') + 
+  ggtitle("Average Protein to Calories ratio for each restaurant")
 
 # Average Carbohydrates to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaurant, -AvgCarbohydrates_to_Calories))) + 
+p8 <- ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaurant, -AvgCarbohydrates_to_Calories))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Avg Carbohydrates (g) per 10 Calories', y='Restaurants')
+  labs(x='Avg Carbohydrates (g) per 10 Calories', y='Restaurants') + 
+  ggtitle("Average Carbohydrates to Calories ratio for each restaurant")
 
 # Average Sodium to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -AvgSodium_to_Calories))) + 
+p9 <- ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -AvgSodium_to_Calories))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Avg Sodium (mg) per 10 Calories', y='Restaurants')
+  labs(x='Avg Sodium (mg) per 10 Calories', y='Restaurants') + 
+  ggtitle("Average Sodium to Calories ratio for each restaurant")
 
 # Average Saturated Fat to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaurant, -AvgSaturatedFat_to_Calories))) + 
+p10 <- ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaurant, -AvgSaturatedFat_to_Calories))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Avg Saturated Fat (g) per 10 Calories', y='Restaurants')
+  labs(x='Avg Saturated Fat (g) per 10 Calories', y='Restaurants') + 
+  ggtitle("Average Saturated Fat to Calories ratio for each restaurant")
 
 # Average Dietary Fiber to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaurant, -AvgDietaryFiber_to_Calories))) + 
+p11 <- ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaurant, -AvgDietaryFiber_to_Calories))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Avg Dietary Fiber (g) per 10 Calories', y='Restaurants')
+  labs(x='Avg Dietary Fiber (g) per 10 Calories', y='Restaurants') + 
+  ggtitle("Average Dietary Fiber to Calories ratio for each restaurant")
 
 # Average Protein for each restaurant
-ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein))) + 
+p12 <- ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein))) + 
   geom_bar(stat='identity') + 
   theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
-  labs(x='Protein in grams', y='Restaurants')
+  labs(x='Protein in grams', y='Restaurants') + 
+  ggtitle("Average Proteinratio for each restaurant")
 ```
+
+```{r}
+titlePanel("Ratios for each Restaurant")
+
+fluidRow(
+  column(6, renderPlot({p5})),
+  column(6, renderPlot({p6}))
+)
+
+fluidRow(
+  column(6, renderPlot({p7})),
+  column(6, renderPlot({p8})),
+  column(6, renderPlot({p9})),
+  column(6, renderPlot({p10})),
+  column(6, renderPlot({p11})),
+  column(6, renderPlot({p12}))
+)
+```
+
 
 # Regression
 ```{r}
