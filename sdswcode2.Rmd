@@ -21,7 +21,7 @@ library(kableExtra)
 library(DT)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -39,9 +39,11 @@ raisingCanes <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw rest
 sonic <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Sonic Drive-In.csv")
 tacoBell <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - tacobell.csv")
 wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - wendys.csv")
+
+salesdata <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - sales.csv")
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 arbys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -59,6 +61,8 @@ raisingCanes <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-proj
 sonic <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Sonic Drive-In.csv")
 tacoBell <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - tacobell.csv")
 wendys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - wendys.csv")
+
+salesdata <- read.csv("")
 ```
 
 ```{r}
@@ -135,6 +139,7 @@ fluidRow(
 )
 ```
 
+
 ```{r}
 # Calories to Price ratio (The amount paid per 100 calories)
 alldata$Calories_to_Price <- c(((alldata$Price)*100)/(alldata$Calories))
@@ -156,21 +161,11 @@ alldata$SaturatedFat_to_Calories <- c(((alldata$SaturatedFat)*10)/(alldata$Calor
 
 # Dietary Fiber to Calories ratio (The amount of Dietary Fiber in grams per 100 calories)
 alldata$DietaryFiber_to_Calories <- c(((alldata$DietaryFiber)*100)/(alldata$Calories))
-
-# Rank of each item with Percentile
-alldata <- alldata[order(alldata$Calories_to_Price),]
-alldata$Rank <- c(1:440)
-alldata$Percentile <- round(((441-alldata_CtoP_sorted$rank)*100)/440, digits = 0)
-alldata <- alldata[order(alldata$Restaurant),]
-
-# Mean_CtoP <- mean(alldata$Calories_to_Price)
-# SD_CtoP <- sqrt(var(alldata$Calories_to_Price))
-# alldata$Percentile <- round(100*(1 - pnorm(alldata$Calories_to_Price, mean = Mean_CtoP, sd = SD_CtoP)), digits = 0)
 ```
 
 ```{r}
 CtoPdata <- alldata %>%
-  dplyr::select(Restaurant, Item, Price, Calories, Calories_to_Price, Percentile)
+  dplyr::select(Restaurant, Item, Price, Calories, Calories_to_Price)
 
 DT::datatable(CtoPdata, filter="bottom")
 ```
@@ -179,16 +174,18 @@ DT::datatable(CtoPdata, filter="bottom")
 
 ```{r}
 # top 10 Calories to Price ratio
-ggplot(data=arrange(alldata, Calories_to_Price)[1:10,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
+ggplot(data=arrange(alldata, Calories_to_Price)[1:10,], aes(x=reorder(Item, Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
   geom_bar(stat='identity') + 
   scale_fill_manual(values=colors) + 
-  labs(y='Menu Items', x='Price per 100 Cal')
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
+  labs(y='Price per 100 Cal', x='Menu Items')
 
 # bottom 10 Calories to Price ratio
-ggplot(data=arrange(alldata, -Calories_to_Price)[1:10,], aes(x=Calories_to_Price, y=reorder(Item, Calories_to_Price), fill=Restaurant)) + 
+ggplot(data=arrange(alldata, -Calories_to_Price)[1:10,], aes(x=reorder(Item, -Calories_to_Price), y=Calories_to_Price, fill=Restaurant)) + 
   geom_bar(stat='identity') + 
   scale_fill_manual(values=colors) + 
-  labs(y='Menu Items', x='Price per 100 Cal')
+  theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
+  labs(y='Price per 100 Cal', x='Menu Items')
 
 # top 10 Serving Size to Price ratio
 ggplot(data=arrange(alldata, ServSize_to_Price)[1:10,], aes(x=reorder(Item, ServSize_to_Price), y=ServSize_to_Price, fill=Restaurant)) + 
@@ -204,6 +201,7 @@ ggplot(data=arrange(alldata, -ServSize_to_Price)[1:10,], aes(x=reorder(Item, -Se
   theme(axis.text.x=element_text(angle=45, hjust=1, size=8)) + 
   labs(y='Price per 10 grams', x='Menu Items')
 ```
+
 
 ```{r}
 # creating a dataframe of averages
@@ -237,65 +235,65 @@ par(mfrow = c(1, 2))
 # Average Calories to Price ratio for each restaurant
 ggplot(alldata_avg, aes(x=AvgCalories_to_Price, y=reorder(Restaurant, -AvgCalories_to_Price))) + 
   geom_bar(stat='identity') + 
-  labs(x='Price', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgCalories_to_Price, digits = 2)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,4))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Price per 100 Calories', y='Restaurants')
 
 # Average Serving Size to Price ratio for each restaurant
 ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes(x=AvgServSize_to_Price, y=reorder(Restaurant, -AvgServSize_to_Price))) + 
   geom_bar(stat='identity') + 
-  labs(x='Price', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgServSize_to_Price, digits = 2)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,0.6))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Price per 10 grams', y='Restaurants')
 
 par(mfrow = c(3, 2))
 # Average Protein to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, AvgProtein_to_Calories))) + 
+ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, -AvgProtein_to_Calories))) + 
   geom_bar(stat='identity') + 
-  labs(x='Protein (g)', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgProtein_to_Calories, digits = 3)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,0.8))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Avg Protein (g) per 10 Calories', y='Restaurants')
 
 # Average Carbohydrates to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaurant, AvgCarbohydrates_to_Calories))) + 
+ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaurant, -AvgCarbohydrates_to_Calories))) + 
   geom_bar(stat='identity') + 
-  labs(x='Carbohydrates (g)', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgCarbohydrates_to_Calories, digits = 3)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,1.1))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Avg Carbohydrates (g) per 10 Calories', y='Restaurants')
 
 # Average Sodium to Calories ratio for each restaurant
 ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -AvgSodium_to_Calories))) + 
   geom_bar(stat='identity') + 
-  labs(x='Sodium (mg)', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgSodium_to_Calories, digits = 3)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,35))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Avg Sodium (mg) per 10 Calories', y='Restaurants')
 
 # Average Saturated Fat to Calories ratio for each restaurant
 ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaurant, -AvgSaturatedFat_to_Calories))) + 
   geom_bar(stat='identity') + 
-  labs(x='Saturated Fat (g)', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgSaturatedFat_to_Calories, digits = 3)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,0.25))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Avg Saturated Fat (g) per 10 Calories', y='Restaurants')
 
 # Average Dietary Fiber to Calories ratio for each restaurant
-ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaurant, AvgDietaryFiber_to_Calories))) + 
+ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaurant, -AvgDietaryFiber_to_Calories))) + 
   geom_bar(stat='identity') + 
-  labs(x='Dietary Fiber (g)', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgDietaryFiber_to_Calories, digits = 3)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,1.2))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Avg Dietary Fiber (g) per 10 Calories', y='Restaurants')
 
 # Average Protein for each restaurant
 ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein))) + 
   geom_bar(stat='identity') + 
-  labs(x='Protein (g)', y='Restaurants') +
-  geom_bar(position = 'dodge', stat='identity') +
-  geom_text(aes(label=round(AvgProtein, digits = 3)), hjust = -0.1) +
-  coord_cartesian(xlim=c(0,58))
+  theme(axis.text.x=element_text(angle=50, hjust=1, size=7)) + 
+  labs(x='Protein in grams', y='Restaurants')
 ```
+
+# Regression
+```{r}
+colnames(salesdata) <- c("Restaurant", "Sales", "AvgSales", "Units")
+alldata_sales <- merge(alldata, salesdata, by="Restaurant")
+
+mdl1 <- lm(data=alldata_sales, Sales ~ Calories_to_Price + ServSize_to_Price + Protein_to_Calories + Carbohydrates_to_Calories + Sodium_to_Calories + SaturatedFat_to_Calories + DietaryFiber_to_Calories)
+summary(mdl1)
+
+mdl2 <- lm(data=alldata_sales, AvgSales ~ Calories_to_Price + ServSize_to_Price + Protein_to_Calories + Carbohydrates_to_Calories + Sodium_to_Calories + SaturatedFat_to_Calories + DietaryFiber_to_Calories)
+summary(mdl2)
+```
+
+From the regression results we see that the calories to price, serving size to price, and saturated fat to calories ratio have the most significance in predicting overall sales of fast food restaurants. The protien to calories, carbohydrates to calories, and dietary fiber to calories ratio also have significant p-values (less than 0.05) and significantly predict restaurant sales. 
+
+Looking at the model for predicting average sales per restaurant unit, none of the variables seem to be significant predictors.
