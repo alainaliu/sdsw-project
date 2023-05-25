@@ -19,9 +19,10 @@ library(MASS)
 library(shiny)
 library(kableExtra)
 library(DT)
+library(ggpubr)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 arbys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -43,7 +44,7 @@ wendys <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurant
 salesdata <- read.csv("/Users/alainaliu/Downloads/sdsw-project-main/sdsw restaurants - sales.csv")
 ```
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 arbys <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - Arbys.csv")
 blimpie <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - blimpie (1).csv")
 buffaloWildWings <- read.csv("/Users/brend/OneDrive/Documents/Calorie Data/sdsw-project-main/sdsw restaurants - buffalowildwings (1).csv")
@@ -166,6 +167,8 @@ alldata <- alldata[order(alldata$Calories_to_Price),]
 alldata$Rank <- c(1:440)
 alldata$Percentile <- round(((441-alldata$Rank)*100)/440, digits = 0)
 alldata <- alldata[order(alldata$Restaurant),]
+
+alldata$Calories_to_Price <- round(alldata$Calories_to_Price, digits=2)
 ```
 
 ```{r}
@@ -176,8 +179,7 @@ DT::datatable(CtoPdata, filter="bottom")
 ```
 
 
-
-```{r}
+```{r, eval=FALSE}
 # top 10 Calories to Price ratio
 p1 <- ggplot(data=arrange(alldata, Calories_to_Price)[1:10,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
   geom_bar(stat='identity') + 
@@ -206,13 +208,59 @@ p4 <- ggplot(data=arrange(alldata, -ServSize_to_Price)[1:10,], aes(x=ServSize_to
   labs(y='Price per 10 grams', x='Menu Items') + 
   ggtitle("Bottom 10 Serving Size to Price Ratio")
 ```
+
+
 ```{r}
-titlePanel("Calories to Price and Serving Size to Price Ratios")
+titlePanel("Calories to Price Ratios")
+sliderInput("amountcal",
+            label="X",
+            min = 5,
+            max = 15,
+            value = 10)
+
 fluidRow(
-  column(6, renderPlot({p1})),
-  column(6, renderPlot({p2})),
-  column(6, renderPlot({p3})),
-  column(6, renderPlot({p4}))
+  column(6,
+      renderPlot({
+        ggplot(data=arrange(alldata, Calories_to_Price)[1:input$amountcal,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
+           geom_bar(stat='identity') + 
+           scale_fill_manual(values=colors) + 
+           labs(y='Menu Items', x='Price per 100 Cal') +
+           ggtitle("Top Calories to Price Ratio")
+      })),
+  column(6,
+      renderPlot({
+        ggplot(data=arrange(alldata, -Calories_to_Price)[1:input$amountcal,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
+           geom_bar(stat='identity') + 
+           scale_fill_manual(values=colors) + 
+           labs(y='Menu Items', x='Price per 100 Cal') +
+           ggtitle("Bottom Calories to Price Ratio")
+      }))
+)
+
+titlePanel("Serving Size to Price Ratios")
+sliderInput("amountss",
+            label="X",
+            min = 5,
+            max = 15,
+            value = 10)
+
+fluidRow(
+  column(6,
+      renderPlot({
+        ggplot(data=arrange(alldata, ServSize_to_Price)[1:input$amountss,], aes(x=ServSize_to_Price, y=reorder(Item, -ServSize_to_Price), fill=Restaurant)) + 
+           geom_bar(stat='identity') + 
+           scale_fill_manual(values=colors) + 
+           labs(y='Menu Items', x='Price per 10 grams') +
+           ggtitle("Top Serving Size to Price Ratio")
+      })),
+  column(6,
+      renderPlot({
+        ggplot(data=arrange(alldata, -ServSize_to_Price)[1:input$amountss,], aes(x=ServSize_to_Price, y=reorder(Item, -ServSize_to_Price), fill=Restaurant)) + 
+           geom_bar(stat='identity') + 
+           scale_fill_manual(values=colors) + 
+           labs(y='Menu Items', x='Price per 10 grams') +
+           ggtitle("Bottom Serving Size to Price Ratio")
+      }))
 )
 ```
 
@@ -336,6 +384,15 @@ p12 <- ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein),
 
 ```{r}
 titlePanel("Ratios for each Restaurant")
+
+# restaurants legend
+p <- ggplot(alldata_avg, aes(x=Restaurant, y=AvgCalories, fill=Restaurant)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values=colors) + 
+  theme(legend.position="top", legend.box="horizontal", legend.title=element_blank(), legend.text=element_text(size=10, face="bold"))
+
+leg <- get_legend(p)
+as_ggplot(leg)
 
 fluidRow(
   column(6, renderPlot({p5})),
