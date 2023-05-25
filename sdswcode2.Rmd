@@ -20,6 +20,7 @@ library(shiny)
 library(kableExtra)
 library(DT)
 library(ggpubr)
+library(corrplot)
 ```
 
 ```{r, eval=TRUE}
@@ -116,7 +117,7 @@ fluidRow(
 # graph individual restaurants price to calories
 checkboxGroupInput("restaurant",
                    label="Show:",
-                   choices=c("Arby's", "Blimpie", "Buffalo Wild Wings", "Burger King", "Carl's Jr.", "Chick-Fil-A", "Chili's", "Del Taco", "In-N-Out", "Jack in the Box", "KFC", "McDonald's", "Popeyes", "Raising Cane's", "Sonic Drive-In", "Taco Bell", "Wendy's"),
+                   choices=c("Arby's", "Blimpie", "Buffalo Wild Wings", "Burger King", "Carl's Jr.", "Chick-Fil-A", "Chili's", "Del Taco", "In-N-Out Burger", "Jack in the Box", "KFC", "McDonald's", "Popeyes", "Raising Cane's", "Sonic Drive-In", "Taco Bell", "Wendy's"),
                    selected=c("Arby's", "Blimpie"),
                    inline=TRUE
 )
@@ -222,22 +223,20 @@ sliderInput("amountcal",
             value = 10)
 
 fluidRow(
-  column(6,
       renderPlot({
         ggplot(data=arrange(alldata, Calories_to_Price)[1:input$amountcal,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 100 Cal') +
            ggtitle("Top Calories to Price Ratio")
-      })),
-  column(6,
+      }),
       renderPlot({
         ggplot(data=arrange(alldata, -Calories_to_Price)[1:input$amountcal,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 100 Cal') +
            ggtitle("Bottom Calories to Price Ratio")
-      }))
+      })
 )
 
 titlePanel("Serving Size to Price Ratios")
@@ -248,22 +247,20 @@ sliderInput("amountss",
             value = 10)
 
 fluidRow(
-  column(6,
       renderPlot({
         ggplot(data=arrange(alldata, ServSize_to_Price)[1:input$amountss,], aes(x=ServSize_to_Price, y=reorder(Item, -ServSize_to_Price), fill=Restaurant)) + 
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 10 grams') +
            ggtitle("Top Serving Size to Price Ratio")
-      })),
-  column(6,
+      }),
       renderPlot({
         ggplot(data=arrange(alldata, -ServSize_to_Price)[1:input$amountss,], aes(x=ServSize_to_Price, y=reorder(Item, -ServSize_to_Price), fill=Restaurant)) + 
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 10 grams') +
            ggtitle("Bottom Serving Size to Price Ratio")
-      }))
+      })
 )
 ```
 
@@ -413,18 +410,40 @@ fluidRow(
 ```
 
 
-# Regression
 ```{r}
+titlePanel("Correlation Matrix")
+
 colnames(salesdata) <- c("Restaurant", "Sales", "AvgSales", "Units")
 alldata_sales <- merge(alldata, salesdata, by="Restaurant")
 
+na.omit(alldata_sales) %>%
+  dplyr::select(ServingSize, Price, Calories, CaloriesFromFat, TotalFat, SaturatedFat,
+         TransFat, Cholesterol, Sodium, Carbohydrates, DietaryFiber, Sugars, Protein, Sales) %>%
+  cor() %>%
+  corrplot(type="lower", diag=FALSE, method="color")
+```
+
+
+```{r, eval=FALSE}
 mdl1 <- lm(data=alldata_sales, Sales ~ Calories_to_Price + ServSize_to_Price + Protein_to_Calories + Carbohydrates_to_Calories + Sodium_to_Calories + SaturatedFat_to_Calories + DietaryFiber_to_Calories)
 summary(mdl1)
 
 mdl2 <- lm(data=alldata_sales, AvgSales ~ Calories_to_Price + ServSize_to_Price + Protein_to_Calories + Carbohydrates_to_Calories + Sodium_to_Calories + SaturatedFat_to_Calories + DietaryFiber_to_Calories)
 summary(mdl2)
+
+#From the regression results we see that the calories to price, serving size to price, and saturated fat to calories ratio have the most significance in predicting overall sales of fast food restaurants. The protien to calories, carbohydrates to calories, and dietary fiber to calories ratio also have significant p-values (less than 0.05) and significantly predict restaurant sales. 
+
+#Looking at the model for predicting average sales per restaurant unit, none of the variables seem to be significant predictors.
+
+mdl1;mdl2
 ```
 
-From the regression results we see that the calories to price, serving size to price, and saturated fat to calories ratio have the most significance in predicting overall sales of fast food restaurants. The protien to calories, carbohydrates to calories, and dietary fiber to calories ratio also have significant p-values (less than 0.05) and significantly predict restaurant sales. 
 
-Looking at the model for predicting average sales per restaurant unit, none of the variables seem to be significant predictors.
+```{r}
+titlePanel("Predicting Price")
+mdl3 <- lm(data=alldata, Price ~ Calories_to_Price + ServSize_to_Price + Protein_to_Calories + Carbohydrates_to_Calories + Sodium_to_Calories + SaturatedFat_to_Calories + DietaryFiber_to_Calories)
+summary(mdl3)
+```
+
+
+
