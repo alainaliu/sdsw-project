@@ -86,7 +86,7 @@ colors <- c("Arby's"="#FF6600", "Blimpie"="#009966", "Buffalo Wild Wings"="#6633
 
 ```{r, echo=FALSE}
 # graph all restaurants price to calories
-titlePanel("Price to Calories and Serving Size to Calories Ratio")
+titlePanel("Price and Serving Size against Calories")
 checkboxInput("color", 
                 label="Color by Restaurant?", 
                 value=FALSE)
