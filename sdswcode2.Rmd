@@ -21,6 +21,7 @@ library(kableExtra)
 library(DT)
 library(ggpubr)
 library(corrplot)
+library(ggthemes)
 ```
 
 ```{r, eval=TRUE}
@@ -86,7 +87,7 @@ colors <- c("Arby's"="#FF6600", "Blimpie"="#009966", "Buffalo Wild Wings"="#6633
 
 ```{r, echo=FALSE}
 # graph all restaurants price to calories
-titlePanel("Price and Serving Size against Calories")
+titlePanel("Calories and Serving Size against Price")
 checkboxInput("color", 
                 label="Color by Restaurant?", 
                 value=FALSE)
@@ -94,18 +95,24 @@ checkboxInput("color",
 fluidRow(
   column(6,
     renderPlot({
-      price_cal <- ggplot(data=alldata, aes(x=Calories, y=Price))
+      price_cal <- ggplot(data=alldata, aes(x=Calories, y=Price)) + 
+        xlim(0, 2000) + ylim(0, 30) + 
+        theme_hc()
       if (input$color==TRUE){
-        price_cal + geom_point(aes(color=Restaurant)) + scale_color_manual(values=colors)
+        price_cal + geom_point(aes(color=Restaurant), size=1, alpha=0.5) + 
+          scale_color_manual(values=colors)
       } else {
         price_cal + geom_point()
       }
     })),
   column(6,
     renderPlot({
-      ss_cal <- ggplot(data=alldata, aes(x=Calories, y=ServingSize))
+      ss_cal <- ggplot(data=alldata, aes(x=ServingSize, y=Price)) + 
+        xlim(0, 600) + ylim(0, 21) + 
+        theme_hc()
       if (input$color==TRUE){
-        ss_cal + geom_point(aes(color=Restaurant)) + scale_color_manual(values=colors)
+        ss_cal + geom_point(aes(color=Restaurant), size=1, alpha=0.5) + 
+          scale_color_manual(values=colors)
       } else {
         ss_cal + geom_point()
       }
@@ -125,19 +132,21 @@ checkboxGroupInput("restaurant",
 fluidRow(
   column(6,
     renderPlot({
-      new_alldata <- alldata[alldata$Restaurant==input$restaurant,]
+      new_alldata <- alldata[which(alldata$Restaurant %in% input$restaurant),]
       ggplot(data=new_alldata, aes(x=Calories, y=Price)) + 
         geom_point(aes(color=Restaurant), size=1, alpha=0.5) + 
         scale_color_manual(values=colors) + 
-        xlim(0, 2000) + ylim(0, 30)
+        xlim(0, 2000) + ylim(0, 30) + 
+        theme_hc()
     })),
   column(6,
     renderPlot({
-      new_alldata <- alldata[alldata$Restaurant==input$restaurant,]
+      new_alldata <- alldata[which(alldata$Restaurant %in% input$restaurant),]
       ggplot(data=new_alldata, aes(x=ServingSize, y=Price)) + 
         geom_point(aes(color=Restaurant), size=1, alpha=0.5) + 
         scale_color_manual(values=colors) + 
-        xlim(0, 2000) + ylim(0, 30)
+        xlim(0, 600) + ylim(0, 21) + 
+        theme_hc()
   }))
 )
 ```
@@ -228,14 +237,16 @@ fluidRow(
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 100 Cal') +
-           ggtitle("Top Calories to Price Ratio")
+           ggtitle("Top Calories to Price Ratio") + 
+           theme_hc()
       }),
       renderPlot({
         ggplot(data=arrange(alldata, -Calories_to_Price)[1:input$amountcal,], aes(x=Calories_to_Price, y=reorder(Item, -Calories_to_Price), fill=Restaurant)) + 
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 100 Cal') +
-           ggtitle("Bottom Calories to Price Ratio")
+           ggtitle("Bottom Calories to Price Ratio") + 
+           theme_hc()
       })
 )
 
@@ -252,14 +263,16 @@ fluidRow(
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 10 grams') +
-           ggtitle("Top Serving Size to Price Ratio")
+           ggtitle("Top Serving Size to Price Ratio") + 
+           theme_hc()
       }),
       renderPlot({
         ggplot(data=arrange(alldata, -ServSize_to_Price)[1:input$amountss,], aes(x=ServSize_to_Price, y=reorder(Item, -ServSize_to_Price), fill=Restaurant)) + 
            geom_bar(stat='identity') + 
            scale_fill_manual(values=colors) + 
            labs(y='Menu Items', x='Price per 10 grams') +
-           ggtitle("Bottom Serving Size to Price Ratio")
+           ggtitle("Bottom Serving Size to Price Ratio") + 
+           theme_hc()
       })
 )
 ```
@@ -302,7 +315,8 @@ p5 <- ggplot(alldata_avg, aes(x=AvgCalories_to_Price, y=reorder(Restaurant, -Avg
   coord_cartesian(xlim=c(0,4)) +
   ggtitle("Average Calories to Price ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Serving Size to Price ratio for each restaurant
 p6 <- ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes(x=AvgServSize_to_Price, y=reorder(Restaurant, -AvgServSize_to_Price), fill=Restaurant)) +
@@ -313,7 +327,8 @@ p6 <- ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes
   coord_cartesian(xlim=c(0,0.6)) + 
   ggtitle("Average Serving Size to Price ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Protein to Calories ratio for each restaurant
 p7 <- ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, AvgProtein_to_Calories), fill=Restaurant)) + 
@@ -324,7 +339,8 @@ p7 <- ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, Av
   coord_cartesian(xlim=c(0,0.8)) + 
   ggtitle("Average Protein to Calories ratio for each restaurant")  +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Carbohydrates to Calories ratio for each restaurant
 p8 <- ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaurant, AvgCarbohydrates_to_Calories), fill=Restaurant)) + 
@@ -335,7 +351,8 @@ p8 <- ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaura
   coord_cartesian(xlim=c(0,1.1)) +
   ggtitle("Average Carbohydrates to Calories ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Sodium to Calories ratio for each restaurant
 p9 <- ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -AvgSodium_to_Calories), fill=Restaurant)) + 
@@ -346,7 +363,8 @@ p9 <- ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -Av
   coord_cartesian(xlim=c(0,35)) + 
   ggtitle("Average Sodium to Calories ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Saturated Fat to Calories ratio for each restaurant
 p10 <- ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaurant, -AvgSaturatedFat_to_Calories), fill=Restaurant)) + 
@@ -357,7 +375,8 @@ p10 <- ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaura
   coord_cartesian(xlim=c(0,0.25)) + 
   ggtitle("Average Saturated Fat to Calories ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Dietary Fiber to Calories ratio for each restaurant
 p11 <- ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaurant, AvgDietaryFiber_to_Calories), fill=Restaurant)) + 
@@ -368,7 +387,8 @@ p11 <- ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaura
   coord_cartesian(xlim=c(0,1.2)) +
   ggtitle("Average Dietary Fiber to Calories ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 
 # Average Protein for each restaurant
 p12 <- ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein), fill=Restaurant)) + 
@@ -379,7 +399,8 @@ p12 <- ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein),
   coord_cartesian(xlim=c(0,58)) +
   ggtitle("Average Protein ratio for each restaurant") +
   scale_fill_manual(values=colors) +
-  theme(legend.position="none")
+  theme(legend.position="none") + 
+  theme_hc()
 ```
 
 ```{r}
@@ -445,5 +466,11 @@ mdl3 <- lm(data=alldata, Price ~ Calories_to_Price + ServSize_to_Price + Protein
 summary(mdl3)
 ```
 
-
+<style>
+.main-container {
+    max-width: 1250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
 
