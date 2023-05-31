@@ -314,9 +314,9 @@ p5 <- ggplot(alldata_avg, aes(x=AvgCalories_to_Price, y=reorder(Restaurant, -Avg
   geom_text(aes(label=round(AvgCalories_to_Price, digits = 2)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,4)) +
   ggtitle("Average Calories to Price ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Serving Size to Price ratio for each restaurant
 p6 <- ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes(x=AvgServSize_to_Price, y=reorder(Restaurant, -AvgServSize_to_Price), fill=Restaurant)) +
@@ -326,9 +326,9 @@ p6 <- ggplot(alldata_avg[complete.cases(alldata_avg$AvgServSize_to_Price),], aes
   geom_text(aes(label=round(AvgServSize_to_Price, digits = 2)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,0.6)) + 
   ggtitle("Average Serving Size to Price ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Protein to Calories ratio for each restaurant
 p7 <- ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, AvgProtein_to_Calories), fill=Restaurant)) + 
@@ -338,9 +338,9 @@ p7 <- ggplot(alldata_avg, aes(x=AvgProtein_to_Calories, y=reorder(Restaurant, Av
   geom_text(aes(label=round(AvgProtein_to_Calories, digits = 3)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,0.8)) + 
   ggtitle("Average Protein to Calories ratio for each restaurant")  +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Carbohydrates to Calories ratio for each restaurant
 p8 <- ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaurant, AvgCarbohydrates_to_Calories), fill=Restaurant)) + 
@@ -350,9 +350,9 @@ p8 <- ggplot(alldata_avg, aes(x=AvgCarbohydrates_to_Calories, y=reorder(Restaura
   geom_text(aes(label=round(AvgCarbohydrates_to_Calories, digits = 3)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,1.1)) +
   ggtitle("Average Carbohydrates to Calories ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Sodium to Calories ratio for each restaurant
 p9 <- ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -AvgSodium_to_Calories), fill=Restaurant)) + 
@@ -362,9 +362,9 @@ p9 <- ggplot(alldata_avg, aes(x=AvgSodium_to_Calories, y=reorder(Restaurant, -Av
   geom_text(aes(label=round(AvgSodium_to_Calories, digits = 3)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,35)) + 
   ggtitle("Average Sodium to Calories ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Saturated Fat to Calories ratio for each restaurant
 p10 <- ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaurant, -AvgSaturatedFat_to_Calories), fill=Restaurant)) + 
@@ -374,9 +374,9 @@ p10 <- ggplot(alldata_avg, aes(x=AvgSaturatedFat_to_Calories, y=reorder(Restaura
   geom_text(aes(label=round(AvgSaturatedFat_to_Calories, digits = 3)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,0.25)) + 
   ggtitle("Average Saturated Fat to Calories ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Dietary Fiber to Calories ratio for each restaurant
 p11 <- ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaurant, AvgDietaryFiber_to_Calories), fill=Restaurant)) + 
@@ -386,9 +386,9 @@ p11 <- ggplot(alldata_avg, aes(x=AvgDietaryFiber_to_Calories, y=reorder(Restaura
   geom_text(aes(label=round(AvgDietaryFiber_to_Calories, digits = 3)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,1.2)) +
   ggtitle("Average Dietary Fiber to Calories ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 
 # Average Protein for each restaurant
 p12 <- ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein), fill=Restaurant)) + 
@@ -398,9 +398,9 @@ p12 <- ggplot(alldata_avg, aes(x=AvgProtein, y=reorder(Restaurant, -AvgProtein),
   geom_text(aes(label=round(AvgProtein, digits = 3)), hjust = -0.1) +
   coord_cartesian(xlim=c(0,58)) +
   ggtitle("Average Protein ratio for each restaurant") +
-  scale_fill_manual(values=colors) +
-  theme(legend.position="none") + 
-  theme_hc()
+  scale_fill_manual(values=colors) + 
+  theme_hc() +
+  theme(legend.position="none")
 ```
 
 ```{r}
